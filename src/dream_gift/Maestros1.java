@@ -5,6 +5,7 @@
  */
 package dream_gift;
 
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 /**
  *
@@ -14,21 +15,52 @@ public class Maestros1 extends javax.swing.JFrame {
 
     /**
      * Creates new form Maestros
+     * @param args
      */
+   
+    //////////////////////////
     
-    DefaultTableModel model=new DefaultTableModel(); 
+    DefaultTableModel tabla_clientes=new DefaultTableModel();
+    DefaultTableModel tabla_comunas=new DefaultTableModel();
+    DefaultTableModel tabla_bancos=new DefaultTableModel();
+    DefaultTableModel tabla_redes_sociales=new DefaultTableModel();
+    DefaultTableModel tabla_usuarios=new DefaultTableModel();
+    
     public Maestros1() {
         initComponents();
         //SE CREAN LAS COLUMNAS DE LA TABLA "LISTA CLIENTES"
-        model.addColumn("Nombre Cliente");
-        model.addColumn("Celular");
-        model.addColumn("Telefono");
-        model.addColumn("Correo Electronico");
-        model.addColumn("Red Social");
-        model.addColumn("Acción");
-        this.table_Lista_Clientes.setModel(model);
+        tabla_clientes.addColumn("Nombre Cliente");
+        tabla_clientes.addColumn("Celular");
+        tabla_clientes.addColumn("Telefono");
+        tabla_clientes.addColumn("Correo Electronico");
+        tabla_clientes.addColumn("Red Social");
+        tabla_clientes.addColumn("Acción");
+        this.table_Lista_Clientes.setModel(tabla_clientes);
         
+        //SE CREAN LAS COLUMNAS DE LA TABLA "LISTA COMUNAS"
+        tabla_comunas.addColumn("Codigo Comuna");
+        tabla_comunas.addColumn("Nombre Comuna");
+        tabla_comunas.addColumn("Acción");
+        this.table_Lista_Comunas.setModel(tabla_comunas);
+        
+        //SE CREAN LAS COLUMNAS DE LA TABLA "LISTA BANCOS"
+        tabla_bancos.addColumn("Codigo Banco");
+        tabla_bancos.addColumn("Nombre Banco");
+        tabla_bancos.addColumn("Acción");
+        this.table_Lista_Bancos.setModel(tabla_bancos);
+        
+        //SE CREAN LAS COLUMNAS DE LA TABLA "LISTA RRSS"
+        tabla_redes_sociales.addColumn("Codigo RRSS");
+        tabla_redes_sociales.addColumn("Nombre RRSS");
+        tabla_redes_sociales.addColumn("Acción");
+        this.table_Lista_RRSS.setModel(tabla_redes_sociales);
+        
+         //SE CREAN LAS COLUMNAS DE LA TABLA "LISTA usuarios"
+        tabla_usuarios.addColumn("Nombre Usuario");
+        tabla_usuarios.addColumn("Acción");
+        this.table_Lista_Usuarios.setModel(tabla_usuarios);
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -68,6 +100,8 @@ public class Maestros1 extends javax.swing.JFrame {
         txt_Celular_Cliente = new javax.swing.JTextField();
         txtfecha_Nacimiento_Cliente = new javax.swing.JFormattedTextField();
         jLabel9 = new javax.swing.JLabel();
+        jLabel26 = new javax.swing.JLabel();
+        combobox_Estado_Cliente = new javax.swing.JComboBox<>();
         jPanel12 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         table_Lista_Clientes = new javax.swing.JTable();
@@ -134,16 +168,16 @@ public class Maestros1 extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         jPanel15 = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jButton11 = new javax.swing.JButton();
-        jButton12 = new javax.swing.JButton();
+        txt_Nombre_RRSS = new javax.swing.JTextField();
+        btn_Guardar_RRSS = new javax.swing.JButton();
+        btn_Cancelar_RRSS = new javax.swing.JButton();
         jLabel22 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
         jButton13 = new javax.swing.JButton();
         jPanel16 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        table_Lista_RRSS = new javax.swing.JTable();
         jButton14 = new javax.swing.JButton();
         jButton15 = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
@@ -172,29 +206,29 @@ public class Maestros1 extends javax.swing.JFrame {
         jButton29 = new javax.swing.JButton();
         jPanel27 = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
-        jTable6 = new javax.swing.JTable();
+        table_Lista_Comunas = new javax.swing.JTable();
         jPanel28 = new javax.swing.JPanel();
         jLabel54 = new javax.swing.JLabel();
         jLabel55 = new javax.swing.JLabel();
-        jTextField39 = new javax.swing.JTextField();
+        txt_Nombre_Comuna = new javax.swing.JTextField();
         jTextField40 = new javax.swing.JTextField();
-        jButton47 = new javax.swing.JButton();
-        jButton48 = new javax.swing.JButton();
+        btn_Cancelar_Comuna = new javax.swing.JButton();
+        btn_Guardar_Comuna = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
         jLabel29 = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
         jPanel20 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable5 = new javax.swing.JTable();
+        table_Lista_Bancos = new javax.swing.JTable();
         jTextField23 = new javax.swing.JTextField();
         jButton30 = new javax.swing.JButton();
         jPanel29 = new javax.swing.JPanel();
         jLabel56 = new javax.swing.JLabel();
         jLabel57 = new javax.swing.JLabel();
-        jTextField41 = new javax.swing.JTextField();
+        txt_Nombre_Banco = new javax.swing.JTextField();
         jTextField42 = new javax.swing.JTextField();
-        jButton49 = new javax.swing.JButton();
-        jButton50 = new javax.swing.JButton();
+        btn_Cancelar_Banco = new javax.swing.JButton();
+        btn_Guardar_Banco = new javax.swing.JButton();
         jButton21 = new javax.swing.JButton();
         jButton22 = new javax.swing.JButton();
         jPanel10 = new javax.swing.JPanel();
@@ -217,14 +251,14 @@ public class Maestros1 extends javax.swing.JFrame {
         jPanel11 = new javax.swing.JPanel();
         jLabel39 = new javax.swing.JLabel();
         jPanel23 = new javax.swing.JPanel();
-        jButton35 = new javax.swing.JButton();
-        jButton36 = new javax.swing.JButton();
+        btn_Cancelar_Usuario = new javax.swing.JButton();
+        btn_Guardar_Usuario = new javax.swing.JButton();
         jLabel40 = new javax.swing.JLabel();
         jLabel42 = new javax.swing.JLabel();
         jLabel43 = new javax.swing.JLabel();
-        jTextField26 = new javax.swing.JTextField();
-        jTextField28 = new javax.swing.JTextField();
-        jTextField29 = new javax.swing.JTextField();
+        txt_Nombre_Usuario = new javax.swing.JTextField();
+        pass_Ingreso_Clave = new javax.swing.JPasswordField();
+        pass_Verificar_Clave = new javax.swing.JPasswordField();
         jLabel41 = new javax.swing.JLabel();
         jButton37 = new javax.swing.JButton();
         jButton38 = new javax.swing.JButton();
@@ -233,7 +267,7 @@ public class Maestros1 extends javax.swing.JFrame {
         jPanel21 = new javax.swing.JPanel();
         jPanel22 = new javax.swing.JPanel();
         jScrollPane8 = new javax.swing.JScrollPane();
-        jTable8 = new javax.swing.JTable();
+        table_Lista_Usuarios = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jMenuBar2 = new javax.swing.JMenuBar();
         MENU_VENTAS = new javax.swing.JMenu();
@@ -317,16 +351,14 @@ public class Maestros1 extends javax.swing.JFrame {
 
         jLabel9.setText("(Ej: 12345678-9)");
 
+        jLabel26.setText("Estado Cliente:");
+
+        combobox_Estado_Cliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Activo", "Inactivo" }));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btn_Cancelar_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40)
-                .addComponent(btn_Guardar_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -350,51 +382,59 @@ public class Maestros1 extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7)
                     .addComponent(jLabel11)
-                    .addComponent(jLabel10))
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel26))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(txt_Rut_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel9))
-                    .addComponent(txtfecha_Nacimiento_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_Celular_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btn_Cancelar_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_Guardar_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(txt_Rut_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel9))
+                            .addComponent(txtfecha_Nacimiento_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_Celular_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(combobox_Estado_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel7)
-                            .addComponent(txt_Nombre_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_Rut_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel9))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel10)
-                            .addComponent(txt_Telefono_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtfecha_Nacimiento_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel11)
-                            .addComponent(txt_Email_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_Celular_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(combobox_Red_Social_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(117, 117, 117)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btn_Cancelar_Cliente)
-                            .addComponent(btn_Guardar_Cliente))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel7)
+                    .addComponent(txt_Nombre_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_Rut_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10)
+                    .addComponent(txt_Telefono_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtfecha_Nacimiento_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel11)
+                    .addComponent(txt_Email_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_Celular_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(combobox_Red_Social_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel26)
+                    .addComponent(combobox_Estado_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_Cancelar_Cliente)
+                    .addComponent(btn_Guardar_Cliente))
+                .addContainerGap())
         );
 
         jPanel12.setBackground(new java.awt.Color(153, 153, 153));
@@ -458,12 +498,6 @@ public class Maestros1 extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btn_Venta_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -471,19 +505,28 @@ public class Maestros1 extends javax.swing.JFrame {
                 .addComponent(btn_Editar_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_Desactivar_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30))
+                .addGap(35, 35, 35))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(256, 256, 256)
-                        .addComponent(Label_Lista_Clientes)
-                        .addGap(77, 77, 77)
-                        .addComponent(txt_Buscar_Lista_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btn_Buscar_Lista_Cliente))
+                        .addContainerGap()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(Label_Clientes)))
+                        .addComponent(Label_Clientes)
+                        .addGap(0, 646, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(255, 255, 255)
+                .addComponent(Label_Lista_Clientes)
+                .addGap(72, 72, 72)
+                .addComponent(txt_Buscar_Lista_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btn_Buscar_Lista_Cliente)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -493,19 +536,19 @@ public class Maestros1 extends javax.swing.JFrame {
                 .addComponent(Label_Clientes)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(11, 11, 11)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Label_Lista_Clientes)
                     .addComponent(txt_Buscar_Lista_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_Buscar_Lista_Cliente))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_Desactivar_Cliente)
+                    .addComponent(btn_Venta_Cliente)
                     .addComponent(btn_Editar_Cliente)
-                    .addComponent(btn_Venta_Cliente))
-                .addContainerGap(105, Short.MAX_VALUE))
+                    .addComponent(btn_Desactivar_Cliente))
+                .addContainerGap(66, Short.MAX_VALUE))
         );
 
         tabbedPane_VENTAS.addTab("Clientes", jPanel2);
@@ -673,7 +716,7 @@ public class Maestros1 extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(271, 271, 271)
                 .addComponent(jLabel51)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
                 .addComponent(jTextField38, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton46, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -777,7 +820,7 @@ public class Maestros1 extends javax.swing.JFrame {
                             .addComponent(jComboBox4, 0, 125, Short.MAX_VALUE)
                             .addComponent(jFormattedTextField1)
                             .addComponent(jComboBox5, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(93, Short.MAX_VALUE))
+                .addContainerGap(94, Short.MAX_VALUE))
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -908,7 +951,7 @@ public class Maestros1 extends javax.swing.JFrame {
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 698, Short.MAX_VALUE)
+            .addGap(0, 699, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -921,20 +964,25 @@ public class Maestros1 extends javax.swing.JFrame {
 
         jLabel20.setText("Nombre de la Red Social:");
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        txt_Nombre_RRSS.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                txt_Nombre_RRSSActionPerformed(evt);
             }
         });
 
-        jButton11.setText("Guardar");
-        jButton11.addActionListener(new java.awt.event.ActionListener() {
+        btn_Guardar_RRSS.setText("Guardar");
+        btn_Guardar_RRSS.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton11ActionPerformed(evt);
+                btn_Guardar_RRSSActionPerformed(evt);
             }
         });
 
-        jButton12.setText("Cancelar");
+        btn_Cancelar_RRSS.setText("Cancelar");
+        btn_Cancelar_RRSS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_Cancelar_RRSSActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
         jPanel15.setLayout(jPanel15Layout);
@@ -946,13 +994,13 @@ public class Maestros1 extends javax.swing.JFrame {
                     .addGroup(jPanel15Layout.createSequentialGroup()
                         .addComponent(jLabel20)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_Nombre_RRSS, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel15Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn_Cancelar_RRSS, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn_Guardar_RRSS, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(23, 23, 23))))
         );
         jPanel15Layout.setVerticalGroup(
@@ -961,11 +1009,11 @@ public class Maestros1 extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel20)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_Nombre_RRSS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton11)
-                    .addComponent(jButton12))
+                    .addComponent(btn_Guardar_RRSS)
+                    .addComponent(btn_Cancelar_RRSS))
                 .addContainerGap(27, Short.MAX_VALUE))
         );
 
@@ -978,7 +1026,7 @@ public class Maestros1 extends javax.swing.JFrame {
 
         jPanel16.setBackground(new java.awt.Color(153, 153, 153));
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        table_Lista_RRSS.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -989,13 +1037,13 @@ public class Maestros1 extends javax.swing.JFrame {
                 "Código RRSS", "Nombre RRSS", "Acción"
             }
         ));
-        jScrollPane3.setViewportView(jTable3);
+        jScrollPane3.setViewportView(table_Lista_RRSS);
 
         javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
         jPanel16.setLayout(jPanel16Layout);
         jPanel16Layout.setHorizontalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 678, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 679, Short.MAX_VALUE)
         );
         jPanel16Layout.setVerticalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1033,7 +1081,7 @@ public class Maestros1 extends javax.swing.JFrame {
                         .addGap(67, 67, 67)
                         .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton13, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE))
+                        .addComponent(jButton13, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -1098,7 +1146,7 @@ public class Maestros1 extends javax.swing.JFrame {
                 .addComponent(jLabel23)
                 .addGap(18, 18, 18)
                 .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
                 .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1150,7 +1198,7 @@ public class Maestros1 extends javax.swing.JFrame {
         jPanel19.setLayout(jPanel19Layout);
         jPanel19Layout.setHorizontalGroup(
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 678, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 679, Short.MAX_VALUE)
         );
         jPanel19Layout.setVerticalGroup(
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1239,7 +1287,7 @@ public class Maestros1 extends javax.swing.JFrame {
 
         jPanel27.setBackground(new java.awt.Color(153, 153, 153));
 
-        jTable6.setModel(new javax.swing.table.DefaultTableModel(
+        table_Lista_Comunas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -1247,13 +1295,10 @@ public class Maestros1 extends javax.swing.JFrame {
                 {null, null, null}
             },
             new String [] {
-                "Código Banco", "Nombre Banco", "Acción"
+                "Código Comuna", "Nombre Comuna", "Acción"
             }
         ));
-        jScrollPane6.setViewportView(jTable6);
-        if (jTable6.getColumnModel().getColumnCount() > 0) {
-            jTable6.getColumnModel().getColumn(0).setHeaderValue("Código Categoría Venta");
-        }
+        jScrollPane6.setViewportView(table_Lista_Comunas);
 
         javax.swing.GroupLayout jPanel27Layout = new javax.swing.GroupLayout(jPanel27);
         jPanel27.setLayout(jPanel27Layout);
@@ -1275,20 +1320,25 @@ public class Maestros1 extends javax.swing.JFrame {
 
         jLabel55.setText("Código Comuna:");
 
-        jTextField39.addActionListener(new java.awt.event.ActionListener() {
+        txt_Nombre_Comuna.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField39ActionPerformed(evt);
+                txt_Nombre_ComunaActionPerformed(evt);
             }
         });
 
-        jButton47.setText("Cancelar");
-        jButton47.addActionListener(new java.awt.event.ActionListener() {
+        btn_Cancelar_Comuna.setText("Cancelar");
+        btn_Cancelar_Comuna.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton47ActionPerformed(evt);
+                btn_Cancelar_ComunaActionPerformed(evt);
             }
         });
 
-        jButton48.setText("Guardar");
+        btn_Guardar_Comuna.setText("Guardar");
+        btn_Guardar_Comuna.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_Guardar_ComunaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel28Layout = new javax.swing.GroupLayout(jPanel28);
         jPanel28.setLayout(jPanel28Layout);
@@ -1298,7 +1348,7 @@ public class Maestros1 extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addComponent(jLabel54)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField39, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txt_Nombre_Comuna, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel55, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -1306,9 +1356,9 @@ public class Maestros1 extends javax.swing.JFrame {
                 .addGap(94, 94, 94))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel28Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton47, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btn_Cancelar_Comuna, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35)
-                .addComponent(jButton48, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btn_Guardar_Comuna, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(53, 53, 53))
         );
         jPanel28Layout.setVerticalGroup(
@@ -1318,12 +1368,12 @@ public class Maestros1 extends javax.swing.JFrame {
                 .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel54)
                     .addComponent(jLabel55)
-                    .addComponent(jTextField39, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_Nombre_Comuna, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField40, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton47)
-                    .addComponent(jButton48))
+                    .addComponent(btn_Cancelar_Comuna)
+                    .addComponent(btn_Guardar_Comuna))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1339,7 +1389,7 @@ public class Maestros1 extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel8Layout.createSequentialGroup()
                         .addGap(249, 249, 249)
                         .addComponent(jLabel34)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
                         .addComponent(jTextField22, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton29))
@@ -1390,7 +1440,7 @@ public class Maestros1 extends javax.swing.JFrame {
 
         jPanel20.setBackground(new java.awt.Color(153, 153, 153));
 
-        jTable5.setModel(new javax.swing.table.DefaultTableModel(
+        table_Lista_Bancos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -1401,16 +1451,13 @@ public class Maestros1 extends javax.swing.JFrame {
                 "Código Banco", "Nombre Banco", "Acción"
             }
         ));
-        jScrollPane5.setViewportView(jTable5);
-        if (jTable5.getColumnModel().getColumnCount() > 0) {
-            jTable5.getColumnModel().getColumn(0).setHeaderValue("Código Categoría Venta");
-        }
+        jScrollPane5.setViewportView(table_Lista_Bancos);
 
         javax.swing.GroupLayout jPanel20Layout = new javax.swing.GroupLayout(jPanel20);
         jPanel20.setLayout(jPanel20Layout);
         jPanel20Layout.setHorizontalGroup(
             jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 678, Short.MAX_VALUE)
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 679, Short.MAX_VALUE)
         );
         jPanel20Layout.setVerticalGroup(
             jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1428,20 +1475,25 @@ public class Maestros1 extends javax.swing.JFrame {
 
         jLabel57.setText("Código Banco:");
 
-        jTextField41.addActionListener(new java.awt.event.ActionListener() {
+        txt_Nombre_Banco.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField41ActionPerformed(evt);
+                txt_Nombre_BancoActionPerformed(evt);
             }
         });
 
-        jButton49.setText("Cancelar");
-        jButton49.addActionListener(new java.awt.event.ActionListener() {
+        btn_Cancelar_Banco.setText("Cancelar");
+        btn_Cancelar_Banco.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton49ActionPerformed(evt);
+                btn_Cancelar_BancoActionPerformed(evt);
             }
         });
 
-        jButton50.setText("Guardar");
+        btn_Guardar_Banco.setText("Guardar");
+        btn_Guardar_Banco.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_Guardar_BancoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel29Layout = new javax.swing.GroupLayout(jPanel29);
         jPanel29.setLayout(jPanel29Layout);
@@ -1451,7 +1503,7 @@ public class Maestros1 extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addComponent(jLabel56)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField41, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txt_Nombre_Banco, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel57, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -1459,9 +1511,9 @@ public class Maestros1 extends javax.swing.JFrame {
                 .addGap(94, 94, 94))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel29Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton49, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btn_Cancelar_Banco, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35)
-                .addComponent(jButton50, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btn_Guardar_Banco, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(53, 53, 53))
         );
         jPanel29Layout.setVerticalGroup(
@@ -1471,12 +1523,12 @@ public class Maestros1 extends javax.swing.JFrame {
                 .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel56)
                     .addComponent(jLabel57)
-                    .addComponent(jTextField41, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_Nombre_Banco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField42, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton49)
-                    .addComponent(jButton50))
+                    .addComponent(btn_Cancelar_Banco)
+                    .addComponent(btn_Guardar_Banco))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1501,7 +1553,7 @@ public class Maestros1 extends javax.swing.JFrame {
                         .addGap(245, 245, 245)
                         .addComponent(jLabel30)
                         .addGap(79, 79, 79)
-                        .addComponent(jTextField23, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
+                        .addComponent(jTextField23, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton30))
                     .addGroup(jPanel9Layout.createSequentialGroup()
@@ -1646,7 +1698,7 @@ public class Maestros1 extends javax.swing.JFrame {
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel35)
-                .addContainerGap(605, Short.MAX_VALUE))
+                .addContainerGap(606, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton33, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1697,20 +1749,31 @@ public class Maestros1 extends javax.swing.JFrame {
 
         jPanel23.setBackground(new java.awt.Color(153, 153, 153));
 
-        jButton35.setText("Cancelar");
-        jButton35.addActionListener(new java.awt.event.ActionListener() {
+        btn_Cancelar_Usuario.setText("Cancelar");
+        btn_Cancelar_Usuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton35ActionPerformed(evt);
+                btn_Cancelar_UsuarioActionPerformed(evt);
             }
         });
 
-        jButton36.setText("Guardar");
+        btn_Guardar_Usuario.setText("Guardar");
+        btn_Guardar_Usuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_Guardar_UsuarioActionPerformed(evt);
+            }
+        });
 
         jLabel40.setText("Nombre Usuario:");
 
         jLabel42.setText("Ingrese Clave:");
 
         jLabel43.setText("Verefique Clave:");
+
+        pass_Verificar_Clave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pass_Verificar_ClaveActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel23Layout = new javax.swing.GroupLayout(jPanel23);
         jPanel23.setLayout(jPanel23Layout);
@@ -1719,22 +1782,22 @@ public class Maestros1 extends javax.swing.JFrame {
             .addGroup(jPanel23Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel23Layout.createSequentialGroup()
+                    .addGroup(jPanel23Layout.createSequentialGroup()
                         .addComponent(jLabel43)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField29, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))
+                        .addComponent(pass_Verificar_Clave, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))
                     .addGroup(jPanel23Layout.createSequentialGroup()
                         .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel40)
                             .addComponent(jLabel42))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField26)
-                            .addComponent(jTextField28, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton35, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_Nombre_Usuario, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                            .addComponent(pass_Ingreso_Clave))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
+                .addComponent(btn_Cancelar_Usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(40, 40, 40)
-                .addComponent(jButton36, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btn_Guardar_Usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32))
         );
         jPanel23Layout.setVerticalGroup(
@@ -1743,22 +1806,22 @@ public class Maestros1 extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel40)
-                    .addComponent(jTextField26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_Nombre_Usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel42)
-                    .addComponent(jTextField28, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pass_Ingreso_Clave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel23Layout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton36)
-                            .addComponent(jButton35)))
+                            .addComponent(btn_Guardar_Usuario)
+                            .addComponent(btn_Cancelar_Usuario)))
                     .addGroup(jPanel23Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel43)
-                            .addComponent(jTextField29, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(pass_Verificar_Clave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
@@ -1784,7 +1847,7 @@ public class Maestros1 extends javax.swing.JFrame {
 
         jPanel22.setBackground(new java.awt.Color(153, 153, 153));
 
-        jTable8.setModel(new javax.swing.table.DefaultTableModel(
+        table_Lista_Usuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -1795,7 +1858,7 @@ public class Maestros1 extends javax.swing.JFrame {
                 "Nombre Usuario", "Acción"
             }
         ));
-        jScrollPane8.setViewportView(jTable8);
+        jScrollPane8.setViewportView(table_Lista_Usuarios);
 
         javax.swing.GroupLayout jPanel22Layout = new javax.swing.GroupLayout(jPanel22);
         jPanel22.setLayout(jPanel22Layout);
@@ -1875,6 +1938,11 @@ public class Maestros1 extends javax.swing.JFrame {
         jLabel2.setText("Dream Gift");
 
         MENU_VENTAS.setText("Ventas");
+        MENU_VENTAS.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                MENU_VENTASMouseClicked(evt);
+            }
+        });
         jMenuBar2.add(MENU_VENTAS);
 
         MENU_COMPRAS.setText("Compras");
@@ -1893,14 +1961,13 @@ public class Maestros1 extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(253, 253, 253)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(tabbedPane_VENTAS)))
-                .addGap(116, 116, Short.MAX_VALUE))
+                .addGap(253, 253, 253)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(tabbedPane_VENTAS)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1916,15 +1983,23 @@ public class Maestros1 extends javax.swing.JFrame {
 
     private void btn_Venta_ClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Venta_ClienteActionPerformed
         // TODO add your handling code here:
+        Ventas1 Venta_cliente = new Ventas1();
+        Venta_cliente.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btn_Venta_ClienteActionPerformed
 
-    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+    private void btn_Guardar_RRSSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Guardar_RRSSActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton11ActionPerformed
+        String [] guardar_rrss=new String[3];
+        //guardar_rrss[0] = txt_Codigo_RRSS.getText();
+        guardar_rrss[1] = txt_Nombre_RRSS.getText();
+        tabla_redes_sociales.addRow(guardar_rrss);
+        txt_Nombre_RRSS.setText("");
+    }//GEN-LAST:event_btn_Guardar_RRSSActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void txt_Nombre_RRSSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_Nombre_RRSSActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_txt_Nombre_RRSSActionPerformed
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
         // TODO add your handling code here:
@@ -1942,9 +2017,13 @@ public class Maestros1 extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton27ActionPerformed
 
-    private void jButton35ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton35ActionPerformed
+    private void btn_Cancelar_UsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Cancelar_UsuarioActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton35ActionPerformed
+        txt_Nombre_Usuario.setText("");
+        pass_Ingreso_Clave.setText("");
+        pass_Verificar_Clave.setText("");
+        
+    }//GEN-LAST:event_btn_Cancelar_UsuarioActionPerformed
 
     private void txt_Celular_ClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_Celular_ClienteActionPerformed
         // TODO add your handling code here:
@@ -1966,21 +2045,24 @@ public class Maestros1 extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_Razon_Social_ProveedorActionPerformed
 
-    private void jTextField39ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField39ActionPerformed
+    private void txt_Nombre_ComunaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_Nombre_ComunaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField39ActionPerformed
+    }//GEN-LAST:event_txt_Nombre_ComunaActionPerformed
 
-    private void jButton47ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton47ActionPerformed
+    private void btn_Cancelar_ComunaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Cancelar_ComunaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton47ActionPerformed
+        txt_Nombre_Comuna.setText("");
+        
+    }//GEN-LAST:event_btn_Cancelar_ComunaActionPerformed
 
-    private void jTextField41ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField41ActionPerformed
+    private void txt_Nombre_BancoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_Nombre_BancoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField41ActionPerformed
+    }//GEN-LAST:event_txt_Nombre_BancoActionPerformed
 
-    private void jButton49ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton49ActionPerformed
+    private void btn_Cancelar_BancoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Cancelar_BancoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton49ActionPerformed
+        txt_Nombre_Banco.setText("");
+    }//GEN-LAST:event_btn_Cancelar_BancoActionPerformed
 
     private void jTextField43ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField43ActionPerformed
         // TODO add your handling code here:
@@ -2008,7 +2090,7 @@ public class Maestros1 extends javax.swing.JFrame {
         guardar_cliente[3] = txt_Email_Cliente.getText();
         guardar_cliente[4] = (String)combobox_Red_Social_Cliente.getSelectedItem();
         //guardar_cliente[5] = 
-        model.addRow(guardar_cliente);
+        tabla_clientes.addRow(guardar_cliente);
         txt_Nombre_Cliente.setText("");
         txt_Celular_Cliente.setText("");
         txt_Telefono_Cliente.setText("");
@@ -2027,6 +2109,65 @@ public class Maestros1 extends javax.swing.JFrame {
         txtfecha_Nacimiento_Cliente.setText("");
         
     }//GEN-LAST:event_btn_Cancelar_ClienteActionPerformed
+
+    private void MENU_VENTASMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MENU_VENTASMouseClicked
+        // TODO add your handling code here:
+        Ventas1 Venta_cliente = new Ventas1();
+        Venta_cliente.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_MENU_VENTASMouseClicked
+
+    private void btn_Guardar_ComunaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Guardar_ComunaActionPerformed
+        // CODIGO PARA GUARDAR DATOS EN LA TABLA
+        String [] guardar_comuna=new String[3];
+        //guardar_comuna[0] = txt_Codigo_Comuna.getText();
+        guardar_comuna[1] = txt_Nombre_Comuna.getText();
+        tabla_comunas.addRow(guardar_comuna);
+        txt_Nombre_Comuna.setText("");
+    }//GEN-LAST:event_btn_Guardar_ComunaActionPerformed
+
+    private void btn_Guardar_BancoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Guardar_BancoActionPerformed
+        // TODO add your handling code here:
+        String [] guardar_banco=new String[3];
+        //guardar_banco[0] = txt_Codigo_Comuna.getText();
+        guardar_banco[1] = txt_Nombre_Banco.getText();
+        tabla_bancos.addRow(guardar_banco);
+        txt_Nombre_Banco.setText("");
+    }//GEN-LAST:event_btn_Guardar_BancoActionPerformed
+
+    private void btn_Cancelar_RRSSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Cancelar_RRSSActionPerformed
+        // TODO add your handling code here:
+        txt_Nombre_RRSS.setText("");
+    }//GEN-LAST:event_btn_Cancelar_RRSSActionPerformed
+
+    private void pass_Verificar_ClaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pass_Verificar_ClaveActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pass_Verificar_ClaveActionPerformed
+
+    private void btn_Guardar_UsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Guardar_UsuarioActionPerformed
+        //String [] passwords = new String[2];
+        //passwords[0] = pass_Ingreso_Clave.getText();
+        
+        // TODO add your handling code here:
+        String Ing_Clave = pass_Ingreso_Clave.getText();
+        String Ver_Clave = pass_Verificar_Clave.getText();
+        
+        
+        if( Ing_Clave.contentEquals(Ver_Clave)){
+        //if(pass_Ingreso_Clave == pass_Verificar_Clave){
+            String [] guardar_usuario=new String[2];
+            guardar_usuario[0] = txt_Nombre_Usuario.getText();
+            tabla_usuarios.addRow(guardar_usuario);
+            txt_Nombre_Usuario.setText("");
+            pass_Ingreso_Clave.setText("");
+            pass_Verificar_Clave.setText("");
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"Contraseñas no coinciden");
+        }
+        
+        
+    }//GEN-LAST:event_btn_Guardar_UsuarioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -2057,6 +2198,9 @@ public class Maestros1 extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
+        
+        DBConeccion db = new DBConeccion();
+        DBConeccion.getConnection();
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -2074,17 +2218,24 @@ public class Maestros1 extends javax.swing.JFrame {
     private javax.swing.JMenu MENU_MAESTROS;
     private javax.swing.JMenu MENU_VENTAS;
     private javax.swing.JButton btn_Buscar_Lista_Cliente;
+    private javax.swing.JButton btn_Cancelar_Banco;
     private javax.swing.JButton btn_Cancelar_Cliente;
+    private javax.swing.JButton btn_Cancelar_Comuna;
     private javax.swing.JButton btn_Cancelar_Proveedor;
+    private javax.swing.JButton btn_Cancelar_RRSS;
+    private javax.swing.JButton btn_Cancelar_Usuario;
     private javax.swing.JButton btn_Desactivar_Cliente;
     private javax.swing.JButton btn_Editar_Cliente;
+    private javax.swing.JButton btn_Guardar_Banco;
     private javax.swing.JButton btn_Guardar_Cliente;
+    private javax.swing.JButton btn_Guardar_Comuna;
     private javax.swing.JButton btn_Guardar_Proveedor;
+    private javax.swing.JButton btn_Guardar_RRSS;
+    private javax.swing.JButton btn_Guardar_Usuario;
     private javax.swing.JButton btn_Venta_Cliente;
+    private javax.swing.JComboBox<String> combobox_Estado_Cliente;
     private javax.swing.JComboBox<String> combobox_Red_Social_Cliente;
     private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton15;
@@ -2101,8 +2252,6 @@ public class Maestros1 extends javax.swing.JFrame {
     private javax.swing.JButton jButton30;
     private javax.swing.JButton jButton33;
     private javax.swing.JButton jButton34;
-    private javax.swing.JButton jButton35;
-    private javax.swing.JButton jButton36;
     private javax.swing.JButton jButton37;
     private javax.swing.JButton jButton38;
     private javax.swing.JButton jButton39;
@@ -2111,10 +2260,6 @@ public class Maestros1 extends javax.swing.JFrame {
     private javax.swing.JButton jButton44;
     private javax.swing.JButton jButton45;
     private javax.swing.JButton jButton46;
-    private javax.swing.JButton jButton47;
-    private javax.swing.JButton jButton48;
-    private javax.swing.JButton jButton49;
-    private javax.swing.JButton jButton50;
     private javax.swing.JButton jButton51;
     private javax.swing.JButton jButton52;
     private javax.swing.JButton jButton7;
@@ -2141,6 +2286,7 @@ public class Maestros1 extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
@@ -2223,45 +2369,45 @@ public class Maestros1 extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
-    private javax.swing.JTable jTable5;
-    private javax.swing.JTable jTable6;
     private javax.swing.JTable jTable7;
-    private javax.swing.JTable jTable8;
     private javax.swing.JTextField jTextField15;
     private javax.swing.JTextField jTextField16;
     private javax.swing.JTextField jTextField17;
     private javax.swing.JTextField jTextField18;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField22;
     private javax.swing.JTextField jTextField23;
-    private javax.swing.JTextField jTextField26;
     private javax.swing.JTextField jTextField27;
-    private javax.swing.JTextField jTextField28;
-    private javax.swing.JTextField jTextField29;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField30;
     private javax.swing.JTextField jTextField38;
-    private javax.swing.JTextField jTextField39;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField40;
-    private javax.swing.JTextField jTextField41;
     private javax.swing.JTextField jTextField42;
     private javax.swing.JTextField jTextField43;
     private javax.swing.JTextField jTextField44;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField7;
+    private javax.swing.JPasswordField pass_Ingreso_Clave;
+    private javax.swing.JPasswordField pass_Verificar_Clave;
     private javax.swing.JTabbedPane tabbedPane_VENTAS;
+    private javax.swing.JTable table_Lista_Bancos;
     private javax.swing.JTable table_Lista_Clientes;
+    private javax.swing.JTable table_Lista_Comunas;
     private javax.swing.JTable table_Lista_Proveedores;
+    private javax.swing.JTable table_Lista_RRSS;
+    private javax.swing.JTable table_Lista_Usuarios;
     private javax.swing.JTextField txt_Buscar_Lista_Cliente;
     private javax.swing.JTextField txt_Celular_Cliente;
     private javax.swing.JTextField txt_Direccion_Proveedor;
     private javax.swing.JTextField txt_Email_Cliente;
     private javax.swing.JTextField txt_Email_Proveedor;
+    private javax.swing.JTextField txt_Nombre_Banco;
     private javax.swing.JTextField txt_Nombre_Cliente;
+    private javax.swing.JTextField txt_Nombre_Comuna;
     private javax.swing.JTextField txt_Nombre_Proveedor;
+    private javax.swing.JTextField txt_Nombre_RRSS;
+    private javax.swing.JTextField txt_Nombre_Usuario;
     private javax.swing.JTextField txt_Razon_Social_Proveedor;
     private javax.swing.JTextField txt_Rut_Cliente;
     private javax.swing.JTextField txt_Rut_Proveedor;
