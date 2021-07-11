@@ -6,17 +6,64 @@
 package dream_gift;
 
 import java.sql.Connection;
+import java.sql.*;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+//import com.mysql.jdbc.;
 
-public class DBConeccion {
-    public static final String URL = "jdbc:mysql://localhost:3306/DreamGift_bdd";
-    public static final String USERNAME = "root";
-    public static final String PASSWORD = "paulo1234";
+//ublic class DBConeccion {
     
-    public static Connection getConnection(){
+    
+    
+    
+    /*private static final String DRIVER = "com.mysql.jdbc.Driver";
+    private static final String URL = "jdbc:mysql://localhost:3306/Dream_GIFT_DB";
+    private static final String USERNAME = "root";
+    private static final String PASSWORD = "paulo1234";
+    
+    static{
+        try {
+            Class.forName(DRIVER);
+        }
+        catch (ClassNotFoundException e){
+        }
+    }*/
+    
+    /*public static Connection getConnection(){
         Connection con = null;
-        JOptionPane.showMessageDialog(null, "Conexion exitosa");
+        try{
+            con = DriverManager.getConnection(URL,USERNAME,PASSWORD);
+            JOptionPane.showMessageDialog(null, "Conexion exitosa");
+        }
+        catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Conexion erronea");
+        }
         return con;
+    }*/ 
+    
+    /*Connection  conect = null;
+            public Connection conexion(){
+                try {
+                    
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Conexion erronea");
+                }
+            return conect;
+            }*/
+//}
+
+public class DBConeccion{
+    Connection enlazar = null;
+    public Connection conectar(){
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            enlazar = DriverManager.getConnection("jdbc:mysql://localhost:3306/Dream_GIFT_DB","root","paulo1234");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e + "No fue posible establecer la conexión");
+        }
+    return enlazar;
+    
     }
 }
