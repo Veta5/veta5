@@ -163,13 +163,10 @@
                       <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jPanel1" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jPanel1" max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
                               <Component id="Label_Clientes" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="646" max="32767" attributes="0"/>
                           </Group>
@@ -2740,9 +2737,14 @@
                               </Group>
                           </Group>
                           <EmptySpace pref="99" max="32767" attributes="0"/>
-                          <Component id="btn_Cancelar_Usuario" min="-2" pref="115" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-                          <Component id="btn_Guardar_Usuario" min="-2" pref="115" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Component id="btn_Cancelar_Usuario" min="-2" pref="115" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                                  <Component id="btn_Guardar_Usuario" min="-2" pref="115" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="wea" min="-2" max="-2" attributes="0"/>
+                          </Group>
                           <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -2754,6 +2756,7 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel40" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="txt_Nombre_Usuario" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="wea" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -2821,6 +2824,11 @@
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pass_Verificar_ClaveActionPerformed"/>
                   </Events>
+                </Component>
+                <Component class="javax.swing.JTextField" name="wea">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="jTextField1"/>
+                  </Properties>
                 </Component>
               </SubComponents>
             </Container>

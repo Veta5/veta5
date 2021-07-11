@@ -7,6 +7,9 @@ package dream_gift;
 
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author Usuario
@@ -259,6 +262,7 @@ public class Maestros1 extends javax.swing.JFrame {
         txt_Nombre_Usuario = new javax.swing.JTextField();
         pass_Ingreso_Clave = new javax.swing.JPasswordField();
         pass_Verificar_Clave = new javax.swing.JPasswordField();
+        wea = new javax.swing.JTextField();
         jLabel41 = new javax.swing.JLabel();
         jButton37 = new javax.swing.JButton();
         jButton38 = new javax.swing.JButton();
@@ -507,12 +511,10 @@ public class Maestros1 extends javax.swing.JFrame {
                 .addComponent(btn_Desactivar_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35))
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(Label_Clientes)
                         .addGap(0, 646, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -1775,6 +1777,8 @@ public class Maestros1 extends javax.swing.JFrame {
             }
         });
 
+        wea.setText("jTextField1");
+
         javax.swing.GroupLayout jPanel23Layout = new javax.swing.GroupLayout(jPanel23);
         jPanel23.setLayout(jPanel23Layout);
         jPanel23Layout.setHorizontalGroup(
@@ -1795,9 +1799,12 @@ public class Maestros1 extends javax.swing.JFrame {
                             .addComponent(txt_Nombre_Usuario, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
                             .addComponent(pass_Ingreso_Clave))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
-                .addComponent(btn_Cancelar_Usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40)
-                .addComponent(btn_Guardar_Usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel23Layout.createSequentialGroup()
+                        .addComponent(btn_Cancelar_Usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(40, 40, 40)
+                        .addComponent(btn_Guardar_Usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(wea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(32, 32, 32))
         );
         jPanel23Layout.setVerticalGroup(
@@ -1806,7 +1813,8 @@ public class Maestros1 extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel40)
-                    .addComponent(txt_Nombre_Usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_Nombre_Usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(wea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel42)
@@ -1990,11 +1998,61 @@ public class Maestros1 extends javax.swing.JFrame {
 
     private void btn_Guardar_RRSSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Guardar_RRSSActionPerformed
         // TODO add your handling code here:
-        String [] guardar_rrss=new String[3];
+        DBConeccion Con_rrss = new DBConeccion();
+        Connection connect = Con_rrss.conectar();
+        
+        try {
+            PreparedStatement guardar = connect.prepareStatement("INSERT INTO RRSS(RRS_NOMBRE) VALUES (?)");
+            guardar.setString(1, txt_Nombre_RRSS.getText());
+            guardar.executeUpdate();
+            JOptionPane.showConfirmDialog(null,"Registro guardado con exito");
+        } catch (Exception e) {
+            JOptionPane.showConfirmDialog(null, e + "Registro no se guardó");
+        }
+        txt_Nombre_RRSS.setText("");
+ 
+        /*String nom_rrss;
+        String sql="";
+        nom_rrss = txt_Nombre_RRSS.getText();
+        sql = "INSERT INTO DREAM_GIFT_DB (RRS_NOMBRE) VALUES (?)";
+        try {
+            PreparedStatement psd = crs.prepareStatement(sql);
+            psd.setString(1,nom_rrss);
+            psd.executeUpdate();
+            
+            JOptionPane.showConfirmDialog(null,"Registro guardado con exito");
+            //txt_Nombre_RRSS.setText("");
+            
+        } catch (SQLException ex) {
+            //Logger.getLogger(Maestros1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String [] guardar_rrss=new String[2];
         //guardar_rrss[0] = txt_Codigo_RRSS.getText();
         guardar_rrss[1] = txt_Nombre_RRSS.getText();
         tabla_redes_sociales.addRow(guardar_rrss);
-        txt_Nombre_RRSS.setText("");
+        //txt_Nombre_RRSS.setText("");
+       
+        
+*/
+        
+        //GUARDAR EN BASE DE DATOS
+        //DBConeccion Con_rrss = new DBConeccion();
+        //String nom_rrss;
+        //String sql="";
+        //nom_rrss = txt_Nombre_RRSS.getText();
+        //sql = "INSERT INTO mydb (nombre_redsocial) VALUES (?)";
+        /*try {
+            PreparedStatement pst = Con_rrss.PreparedStatement(sql);
+            
+            pst.setString(1,nom_rrss);
+            int n=pst.executeUpdate();
+            if(n>0){
+                JOptionPane.showMessageDialog(null, "Registro Guardado");
+            }
+        }
+        catch (SQLException ex){
+        }*/
+        
     }//GEN-LAST:event_btn_Guardar_RRSSActionPerformed
 
     private void txt_Nombre_RRSSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_Nombre_RRSSActionPerformed
@@ -2118,6 +2176,19 @@ public class Maestros1 extends javax.swing.JFrame {
     }//GEN-LAST:event_MENU_VENTASMouseClicked
 
     private void btn_Guardar_ComunaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Guardar_ComunaActionPerformed
+        
+        DBConeccion Con_comuna= new DBConeccion();
+        Connection connect = Con_comuna.conectar();
+        
+        try {
+            PreparedStatement guardar = connect.prepareStatement("INSERT INTO COMUNAS(COM_DESCRIPCION) VALUES (?)");
+            guardar.setString(1, txt_Nombre_Comuna.getText());
+            guardar.executeUpdate();
+            JOptionPane.showConfirmDialog(null,"Registro guardado con exito");
+        } catch (Exception e) {
+            JOptionPane.showConfirmDialog(null, e + "Registro no se guardó");
+        }
+
         // CODIGO PARA GUARDAR DATOS EN LA TABLA
         String [] guardar_comuna=new String[3];
         //guardar_comuna[0] = txt_Codigo_Comuna.getText();
@@ -2128,6 +2199,20 @@ public class Maestros1 extends javax.swing.JFrame {
 
     private void btn_Guardar_BancoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Guardar_BancoActionPerformed
         // TODO add your handling code here:
+        DBConeccion Con_banco = new DBConeccion();
+        Connection connect = Con_banco.conectar();
+        
+        try {
+            PreparedStatement guardar = connect.prepareStatement("INSERT INTO BANCOS(BAN_DESCRIPCION) VALUES (?)");
+            guardar.setString(1, txt_Nombre_Banco.getText());
+            guardar.executeUpdate();
+            JOptionPane.showConfirmDialog(null,"Registro guardado con exito");
+        } catch (Exception e) {
+            JOptionPane.showConfirmDialog(null, e + "Registro no se guardó");
+        }
+       
+        
+        
         String [] guardar_banco=new String[3];
         //guardar_banco[0] = txt_Codigo_Comuna.getText();
         guardar_banco[1] = txt_Nombre_Banco.getText();
@@ -2145,62 +2230,55 @@ public class Maestros1 extends javax.swing.JFrame {
     }//GEN-LAST:event_pass_Verificar_ClaveActionPerformed
 
     private void btn_Guardar_UsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Guardar_UsuarioActionPerformed
-        //String [] passwords = new String[2];
-        //passwords[0] = pass_Ingreso_Clave.getText();
+        DBConeccion Con_usuario = new DBConeccion();
+        Connection connect = Con_usuario.conectar();
         
-        // TODO add your handling code here:
+        
         String Ing_Clave = pass_Ingreso_Clave.getText();
         String Ver_Clave = pass_Verificar_Clave.getText();
         
-        
-        if( Ing_Clave.contentEquals(Ver_Clave)){
-        //if(pass_Ingreso_Clave == pass_Verificar_Clave){
-            String [] guardar_usuario=new String[2];
-            guardar_usuario[0] = txt_Nombre_Usuario.getText();
-            tabla_usuarios.addRow(guardar_usuario);
-            txt_Nombre_Usuario.setText("");
-            pass_Ingreso_Clave.setText("");
-            pass_Verificar_Clave.setText("");
-        }
-        else{
+        /*try {
+            if( Ing_Clave.contentEquals(Ver_Clave)){
+                PreparedStatement guardar = connect.prepareStatement("INSERT INTO USUARIOS(USU_NOMBRE) VALUES (?)");
+                guardar.setString(1, txt_Nombre_Usuario.getText());
+                guardar.executeUpdate();
+                JOptionPane.showConfirmDialog(null,"Registro guardado con exito");
+                
+                String [] guardar_usuario=new String[1];
+                guardar_usuario[0] = txt_Nombre_Usuario.getText();
+                tabla_usuarios.addRow(guardar_usuario);
+                txt_Nombre_Usuario.setText("");
+                pass_Ingreso_Clave.setText("");
+                pass_Verificar_Clave.setText("");
+            }
+            else{
             JOptionPane.showMessageDialog(null,"Contraseñas no coinciden");
+            }
+                
         }
+        catch (Exception e) {
+                JOptionPane.showConfirmDialog(null, e + "Registro no se guardó");
+        }
+          */  
+        }
+        
+        
+        
+        
+        
+        
+        // TODO add your handling code here:
+        
+        
+       
         
         
     }//GEN-LAST:event_btn_Guardar_UsuarioActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Maestros1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Maestros1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Maestros1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Maestros1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
         
-        DBConeccion db = new DBConeccion();
-        DBConeccion.getConnection();
+        //DBConeccion db = new DBConeccion();
+        //DBConeccion.getConnection();
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -2414,5 +2492,6 @@ public class Maestros1 extends javax.swing.JFrame {
     private javax.swing.JTextField txt_Telefono_Cliente;
     private javax.swing.JTextField txt_Telefono_Proveedor;
     private javax.swing.JFormattedTextField txtfecha_Nacimiento_Cliente;
+    private javax.swing.JTextField wea;
     // End of variables declaration//GEN-END:variables
 }
