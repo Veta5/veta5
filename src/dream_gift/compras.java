@@ -1009,8 +1009,8 @@ public class compras extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         
-        DBConeccion db = new DBConeccion();
-        DBConeccion.getConnection();
+        //DBConeccion db = new DBConeccion();
+        //DBConeccion.getConnection();
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
