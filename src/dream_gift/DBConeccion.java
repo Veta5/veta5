@@ -11,9 +11,31 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
-//import com.mysql.jdbc.;
 
-//ublic class DBConeccion {
+
+
+public class DBConeccion{
+    
+    public static void main(String args[]){}
+    
+    Connection enlazar = null;
+   
+    public Connection conectar(){
+        
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            enlazar = DriverManager.getConnection("jdbc:mysql://localhost:3306/DREAM_GIFT_DB","root","paulo1234");
+            JOptionPane.showMessageDialog(null, "Conexión establecida");
+        } 
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e + "No fue posible establecer la conexión");
+        }
+    return enlazar;
+    
+    }
+    
+}
+//public class DBConeccion {
     
     
     
@@ -54,16 +76,4 @@ import javax.swing.JOptionPane;
             }*/
 //}
 
-public class DBConeccion{
-    Connection enlazar = null;
-    public Connection conectar(){
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            enlazar = DriverManager.getConnection("jdbc:mysql://localhost:3306/Dream_GIFT_DB","root","paulo1234");
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e + "No fue posible establecer la conexión");
-        }
-    return enlazar;
-    
-    }
-}
+
