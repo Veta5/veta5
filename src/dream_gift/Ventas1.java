@@ -139,7 +139,7 @@ public class Ventas1 extends javax.swing.JFrame {
         jMenu5 = new javax.swing.JMenu();
         jMenu6 = new javax.swing.JMenu();
         jMenu8 = new javax.swing.JMenu();
-        jMenu9 = new javax.swing.JMenu();
+        MENU_MAESTROS = new javax.swing.JMenu();
 
         jMenu1.setText("jMenu1");
 
@@ -362,13 +362,14 @@ public class Ventas1 extends javax.swing.JFrame {
                                     .addComponent(jLabel26)
                                     .addComponent(jLabel25)))))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel7Layout.createSequentialGroup()
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField17)
-                            .addComponent(jComboBox3, 0, 125, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jTextField16, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
-                        .addComponent(jTextField15)))
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jTextField17)
+                                .addComponent(jComboBox3, 0, 125, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jTextField16, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
+                                .addComponent(jTextField15)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -819,8 +820,13 @@ public class Ventas1 extends javax.swing.JFrame {
         jMenu8.setText("Informes");
         jMenuBar1.add(jMenu8);
 
-        jMenu9.setText("Maestros");
-        jMenuBar1.add(jMenu9);
+        MENU_MAESTROS.setText("Maestros");
+        MENU_MAESTROS.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                MENU_MAESTROSMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(MENU_MAESTROS);
 
         setJMenuBar(jMenuBar1);
 
@@ -874,6 +880,13 @@ public class Ventas1 extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField18ActionPerformed
 
+    private void MENU_MAESTROSMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MENU_MAESTROSMouseClicked
+        // TODO add your handling code here:
+        Maestros1 maestros = new Maestros1();
+        maestros.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_MENU_MAESTROSMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -911,6 +924,7 @@ public class Ventas1 extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu MENU_MAESTROS;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
@@ -970,7 +984,6 @@ public class Ventas1 extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenu jMenu8;
-    private javax.swing.JMenu jMenu9;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
