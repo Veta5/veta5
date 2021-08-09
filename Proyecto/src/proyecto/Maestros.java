@@ -21,6 +21,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableCellRenderer;
 import java.text.SimpleDateFormat;
 import java.time.Clock;
+import java.util.Calendar;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
@@ -162,7 +163,8 @@ public class Maestros extends javax.swing.JFrame {
 
         
         
-    
+    ////////////////////////////////////////////////////////////////////////////
+    //-------------Mostrar lista en la tabla------------------------------------
     public DefaultTableModel Mostrar_Lista_Clientes(){
        
         //String [] nombre_columnas = {"Rut","Nombre","Telefono","Email","Fecha Nacimiento","Comuna","Celular"};
@@ -458,6 +460,264 @@ public class Maestros extends javax.swing.JFrame {
         return tabla_articulos_pack_1;
     }
     
+    ////////////////////////////////////////////////////////////////////////////
+    //-------------Buscar lista en la tabla------------------------------------
+    
+    public DefaultTableModel Buscar_Lista_Clientes(String buscar){
+       
+        //String [] nombre_columnas = {"Rut","Nombre","Telefono","Email","Fecha Nacimiento","Comuna","Celular"};
+        String [] registros = new String[8];
+        
+        tabla_clientes.setRowCount(0);
+        
+        String sql = "SELECT * FROM cliente WHERE CLI_ID_RUT_CLIENTE LIKE '%"+buscar+"%' OR CLI_NOMBRE LIKE '%"+buscar+"%'   ORDER BY CLI_ID_RUT_CLIENTE ASC";
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        try {
+            pst = conect.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while(rs.next()){
+                registros[0] = rs.getString("CLI_ID_RUT_CLIENTE");
+                registros[1] = rs.getString("CLI_NOMBRE");
+                registros[2] = rs.getString("CLI_TELEFONO");
+                registros[3] = rs.getString("CLI_CORREO");
+                registros[4] = rs.getString("CLI_F_NACIMIENTO");
+                registros[5] = rs.getString("CLI_COMUNA");
+                registros[6] = rs.getString("CLI_CELULAR");
+                registros[7] = rs.getString("CLI_ESTADO");
+                tabla_clientes.addRow(registros); 
+            }
+        }
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e + "No se pudo mostrar tabla");
+        
+        }
+        
+        addCheckBox_Cliente(8, table_Lista_Clientes);
+        return tabla_clientes;
+    }
+    
+    public DefaultTableModel Buscar_Lista_Proveedores(String buscar){
+        String [] registros = new String[6];
+        
+        tabla_proveedores.setRowCount(0);
+        
+        String sql = "SELECT * FROM proveedor WHERE PRO_ID_RUT_PROVEEDOR LIKE '%"+buscar+"%' OR PRO_NOMBRE LIKE '%"+buscar+"%'   ORDER BY PRO_ID_RUT_PROVEEDOR";
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        try {
+            pst = conect.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while(rs.next()){
+                registros[0] = rs.getString("PRO_ID_RUT_PROVEEDOR");
+                registros[1] = rs.getString("PRO_NOMBRE");
+                registros[2] = rs.getString("PRO_TELEFONO");
+                registros[3] = rs.getString("PRO_CORREO");
+                registros[4] = rs.getString("PRO_DIRECCION");
+                registros[5] = rs.getString("PRO_ESTADO");
+                tabla_proveedores.addRow(registros); 
+            }
+        }
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e + "No se pudo mostrar tabla"); 
+        }
+        
+        addCheckBox_Proveedor(6, table_Lista_Proveedores);
+        return tabla_proveedores;
+    }
+    
+    public DefaultTableModel Buscar_Lista_Categoria_Articulo(String buscar){
+        String [] registros = new String[3];
+        tabla_categoria_articulo.setRowCount(0);
+        String sql = "SELECT * FROM categoria_articulo WHERE  CAT_ID_CATEGORIA LIKE '%"+buscar+"%' OR CAT_NOMBRE LIKE '%"+buscar+"%'  ORDER BY CAT_ID_CATEGORIA";
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        try {
+            pst = conect.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while(rs.next()){
+                registros[0] = rs.getString("CAT_ID_CATEGORIA");
+                registros[1] = rs.getString("CAT_NOMBRE");
+                registros[2] = rs.getString("CAT_ESTADO");
+                tabla_categoria_articulo.addRow(registros); 
+            }
+        }
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e + "No se pudo mostrar tabla"); 
+        }
+        addCheckBox_Categoria_Articulo(3, table_Lista_Categoria_Articulo);
+        return tabla_categoria_articulo;
+    }
+    
+    public DefaultTableModel Buscar_Lista_Comunas(String buscar){
+        String [] registros = new String[3];
+        tabla_comunas.setRowCount(0);
+        String sql = "SELECT * FROM comunas WHERE  COM_ID_COMUNA LIKE '%"+buscar+"%' OR COM_NOMBRE LIKE '%"+buscar+"%'  ORDER BY COM_ID_COMUNA";
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        try {
+            pst = conect.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while(rs.next()){
+                registros[0] = rs.getString("COM_ID_COMUNA");
+                registros[1] = rs.getString("COM_NOMBRE");
+                registros[2] = rs.getString("COM_ESTADO");
+                tabla_comunas.addRow(registros); 
+            }
+        }
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e + "No se pudo mostrar tabla"); 
+        }
+        addCheckBox_Proveedor(3, table_Lista_Comunas);
+        return tabla_comunas;
+    }
+    
+    public DefaultTableModel Buscar_Lista_Bancos(String buscar){
+        String [] registros = new String[3];
+        tabla_bancos.setRowCount(0);
+        String sql = "SELECT * FROM bancos WHERE BAN_ID_BANCO LIKE '%"+buscar+"%' OR BAN_NOMBRE LIKE '%"+buscar+"%'  ORDER BY BAN_ID_BANCO";
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        try {
+            pst = conect.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while(rs.next()){
+                registros[0] = rs.getString("BAN_ID_BANCO");
+                registros[1] = rs.getString("BAN_NOMBRE");
+                registros[2] = rs.getString("BAN_ESTADO");
+                tabla_bancos.addRow(registros); 
+            }
+        }
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e + "No se pudo mostrar tabla"); 
+        }
+        addCheckBox_Banco(3, table_Lista_Bancos);
+        return tabla_bancos;
+    }
+    
+    public DefaultTableModel Buscar_Lista_RRSS(String buscar){
+        String [] registros = new String[3];
+        tabla_redes_sociales.setRowCount(0);
+        String sql = "SELECT * FROM RRSS  WHERE  RRS_ID_RRSS LIKE '%"+buscar+"%' OR  RRS_NOMBRE LIKE '%"+buscar+"%'    ORDER BY RRS_ID_RRSS";
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        try {
+            pst = conect.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while(rs.next()){
+                registros[0] = rs.getString("RRS_ID_RRSS");
+                registros[1] = rs.getString("RRS_NOMBRE");
+                registros[2] = rs.getString("RRS_ESTADO");
+                tabla_redes_sociales.addRow(registros); 
+            }
+        }
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e + "No se pudo mostrar tabla"); 
+        }
+        addCheckBox_RRSS(3, table_Lista_RRSS);
+        return tabla_redes_sociales;
+    }
+    
+    public DefaultTableModel Buscar_Lista_Usuarios(String buscar){
+        String [] registros = new String[1];
+        tabla_usuarios.setRowCount(0);
+        String sql = "SELECT * FROM usuarios WHERE USU_NOMBRE LIKE '%"+buscar+"%'    ORDER BY USU_NOMBRE";
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        try {
+            pst = conect.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while(rs.next()){
+                registros[0] = rs.getString("USU_NOMBRE");
+                tabla_usuarios.addRow(registros); 
+            }
+        }
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e + "No se pudo mostrar tabla"); 
+        }
+        addCheckBox_RRSS(1, table_Lista_Usuarios);
+        return tabla_usuarios;
+    }
+    
+    public DefaultTableModel Buscar_Lista_Categoria_Venta(String buscar){
+        String [] registros = new String[3];
+        tabla_categoria_venta.setRowCount(0);
+        String sql = "SELECT * FROM estados_venta  WHERE EST_ID_EST_VEN LIKE '%"+buscar+"%' OR  EST_VEN_NOMBRE LIKE '%"+buscar+"%'    ORDER BY EST_ID_EST_VEN";
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        try {
+            pst = conect.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while(rs.next()){
+                registros[0] = rs.getString("EST_ID_EST_VEN");
+                registros[1] = rs.getString("EST_VEN_NOMBRE");
+                registros[2] = rs.getString("EST_VEN_ESTADO");
+                tabla_categoria_venta.addRow(registros); 
+            }
+        }
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e + "No se pudo mostrar tabla"); 
+        }
+        addCheckBox_Categoria_Venta(3, table_Lista_Categoria_Venta);
+        return tabla_categoria_venta;
+    }
+    
+    public DefaultTableModel Buscar_Lista_Articulo(String buscar){
+        String [] registros = new String[7];
+        tabla_articulos.setRowCount(0);
+        String sql = "select ART_ID_ARTICULO, ART_NOMBRE, ART_DESCRPCION, CAT_NOMBRE, ART_FECHA_VENCIMIENTO, ART_ESTADO, ART_MARCA\n" +
+        "\n" + "from articulo inner join categoria_articulo\n" +
+        "\n" + "on articulo.CAT_ART_CAT_ID_CATEGORIA = categoria_articulo.CAT_ID_CATEGORIA   WHERE  ART_ID_ARTICULO LIKE '%"+buscar+"%' OR ART_NOMBRE LIKE '%"+buscar+"%'    ORDER BY ART_ID_ARTICULO;";
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        String aux = null;
+        try {
+            pst = conect.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while(rs.next()){
+                registros[0] = rs.getString("ART_ID_ARTICULO");
+                registros[1] = rs.getString("ART_NOMBRE");
+                registros[2] = rs.getString("ART_DESCRPCION");
+                registros[3] = rs.getString("CAT_NOMBRE");
+                registros[4] = rs.getString("ART_MARCA");
+                registros[5] = rs.getString("ART_FECHA_VENCIMIENTO");
+                registros[6] = rs.getString("ART_ESTADO");
+                tabla_articulos.addRow(registros); 
+            }
+        }
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e + "No se pudo mostrar tabla");
+        
+        }
+        
+        addCheckBox_Articulo(7, table_Lista_Articulos);
+        return tabla_articulos;
+    }
+    
+    public DefaultTableModel Buscar_Lista_Pack(String buscar){
+        String [] registros = new String[5];
+        tabla_pack.setRowCount(0);
+        String sql = "SELECT * FROM pack  WHERE PCK_ID_PACK LIKE '%"+buscar+"%' OR PCK_NOMBRE LIKE '%"+buscar+"%'   ORDER BY PCK_ID_PACK";
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        try {
+            pst = conect.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while(rs.next()){
+                registros[0] = rs.getString("PCK_ID_PACK");
+                registros[1] = rs.getString("PCK_NOMBRE");
+                registros[2] = rs.getString("PCK_STOCK");
+                registros[3] = rs.getString("PCK_COSTO");
+                registros[4] = rs.getString("PCK_ESTADO");
+                tabla_pack.addRow(registros); 
+            }
+        }
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e + "No se pudo mostrar tabla"); 
+        }
+        addCheckBox_Pack(5, table_Lista_Pack);
+        return tabla_pack;    
+    }
     
     
     
@@ -681,10 +941,10 @@ public class Maestros extends javax.swing.JFrame {
         table_Lista_Clientes = new javax.swing.JTable();
         Label_Lista_Clientes = new javax.swing.JLabel();
         txt_Buscar_Lista_Cliente = new javax.swing.JTextField();
-        btn_Buscar_Lista_Cliente = new javax.swing.JButton();
         btn_Venta_Cliente = new javax.swing.JButton();
         btn_Editar_Cliente = new javax.swing.JButton();
         Label_Clientes = new javax.swing.JLabel();
+        jLabel64 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel45 = new javax.swing.JLabel();
         jPanel24 = new javax.swing.JPanel();
@@ -710,8 +970,8 @@ public class Maestros extends javax.swing.JFrame {
         table_Lista_Proveedores = new javax.swing.JTable();
         btn_Editar_Proveedor = new javax.swing.JButton();
         jButton45 = new javax.swing.JButton();
-        jButton46 = new javax.swing.JButton();
-        jTextField38 = new javax.swing.JTextField();
+        txt_Buscar_Lista_Proveedor = new javax.swing.JTextField();
+        jLabel65 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -737,6 +997,8 @@ public class Maestros extends javax.swing.JFrame {
         table_Lista_Articulos = new javax.swing.JTable();
         btn_editar_Articulo = new javax.swing.JButton();
         jLabel19 = new javax.swing.JLabel();
+        txt_Buscar_Lista_Articulo = new javax.swing.JTextField();
+        jLabel66 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jLabel49 = new javax.swing.JLabel();
         jPanel22 = new javax.swing.JPanel();
@@ -765,9 +1027,9 @@ public class Maestros extends javax.swing.JFrame {
         jScrollPane12 = new javax.swing.JScrollPane();
         table_Lista_Pack = new javax.swing.JTable();
         Label_Lista_Clientes1 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        txt_Buscar_Lista_Pack = new javax.swing.JTextField();
         btn_Editar_Pack = new javax.swing.JButton();
+        jLabel67 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jPanel17 = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
@@ -784,9 +1046,9 @@ public class Maestros extends javax.swing.JFrame {
         jPanel19 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         table_Lista_Categoria_Articulo = new javax.swing.JTable();
-        jTextField4 = new javax.swing.JTextField();
-        jButton20 = new javax.swing.JButton();
+        txt_Buscar_Lista_Categoria_Articulo = new javax.swing.JTextField();
         btn_Editar_Categoria_Articulo = new javax.swing.JButton();
+        jLabel68 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jPanel15 = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
@@ -800,18 +1062,17 @@ public class Maestros extends javax.swing.JFrame {
         btn_Actualizar_RRSS = new javax.swing.JButton();
         jLabel22 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jButton13 = new javax.swing.JButton();
+        txt_Buscar_Lista_RRSS = new javax.swing.JTextField();
         jPanel16 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         table_Lista_RRSS = new javax.swing.JTable();
         btn_Editar_RRSS = new javax.swing.JButton();
+        jLabel69 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         jLabel33 = new javax.swing.JLabel();
         jLabel34 = new javax.swing.JLabel();
         btn_Editar_Comunas = new javax.swing.JButton();
-        jTextField22 = new javax.swing.JTextField();
-        jButton29 = new javax.swing.JButton();
+        txt_Buscar_Lista_Comuna = new javax.swing.JTextField();
         jPanel27 = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
         table_Lista_Comunas = new javax.swing.JTable();
@@ -825,14 +1086,14 @@ public class Maestros extends javax.swing.JFrame {
         txt_Codigo_Comuna = new javax.swing.JTextField();
         combobox_Estado_Comuna = new javax.swing.JComboBox<>();
         btn_Actualizar_Comuna = new javax.swing.JButton();
+        jLabel70 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         jLabel29 = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
         jPanel20 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         table_Lista_Bancos = new javax.swing.JTable();
-        jTextField23 = new javax.swing.JTextField();
-        jButton30 = new javax.swing.JButton();
+        txt_Buscar_Lista_Banco = new javax.swing.JTextField();
         jPanel29 = new javax.swing.JPanel();
         jLabel56 = new javax.swing.JLabel();
         txt_Nombre_Banco = new javax.swing.JTextField();
@@ -844,12 +1105,12 @@ public class Maestros extends javax.swing.JFrame {
         combobox_Estado_Banco = new javax.swing.JComboBox<>();
         btn_Actualizar_Banco = new javax.swing.JButton();
         btn_Editar_Banco = new javax.swing.JButton();
+        jLabel71 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         jLabel35 = new javax.swing.JLabel();
         jLabel38 = new javax.swing.JLabel();
         btn_Editar_Categoria_Venta = new javax.swing.JButton();
-        jButton39 = new javax.swing.JButton();
-        jTextField27 = new javax.swing.JTextField();
+        txt_Buscar_Lista_Categoria_Venta = new javax.swing.JTextField();
         jPanel30 = new javax.swing.JPanel();
         jLabel58 = new javax.swing.JLabel();
         txt_Nombre_Categoria_Venta = new javax.swing.JTextField();
@@ -863,6 +1124,7 @@ public class Maestros extends javax.swing.JFrame {
         jPanel18 = new javax.swing.JPanel();
         jScrollPane7 = new javax.swing.JScrollPane();
         table_Lista_Categoria_Venta = new javax.swing.JTable();
+        jLabel72 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
         jLabel39 = new javax.swing.JLabel();
         jPanel23 = new javax.swing.JPanel();
@@ -876,11 +1138,11 @@ public class Maestros extends javax.swing.JFrame {
         btn_Cancelar_Usuario = new javax.swing.JButton();
         jLabel41 = new javax.swing.JLabel();
         btn_Eliminar_Usuario = new javax.swing.JButton();
-        jButton40 = new javax.swing.JButton();
-        jTextField30 = new javax.swing.JTextField();
+        txt_Buscar_Lista_Usuario = new javax.swing.JTextField();
         jPanel21 = new javax.swing.JPanel();
         jScrollPane8 = new javax.swing.JScrollPane();
         table_Lista_Usuarios = new javax.swing.JTable();
+        jLabel73 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jMenuBar2 = new javax.swing.JMenuBar();
         MENU_VENTAS = new javax.swing.JMenu();
@@ -1061,7 +1323,7 @@ public class Maestros extends javax.swing.JFrame {
                         .addComponent(jLabel24)))
                 .addGap(20, 20, 20)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_Guardar_Cliente, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+                    .addComponent(btn_Guardar_Cliente, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
                     .addComponent(btn_Actualizar_Cliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btn_Cancelar_Cliente))
                 .addGap(15, 15, 15))
@@ -1104,17 +1366,25 @@ public class Maestros extends javax.swing.JFrame {
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel12Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 382, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         Label_Lista_Clientes.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         Label_Lista_Clientes.setText("Lista Clientes");
 
-        btn_Buscar_Lista_Cliente.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        btn_Buscar_Lista_Cliente.setText("Buscar");
+        txt_Buscar_Lista_Cliente.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_Buscar_Lista_ClienteKeyReleased(evt);
+            }
+        });
 
         btn_Venta_Cliente.setText("Venta");
+        btn_Venta_Cliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_Venta_ClienteActionPerformed(evt);
+            }
+        });
 
         btn_Editar_Cliente.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btn_Editar_Cliente.setText("Editar");
@@ -1125,6 +1395,9 @@ public class Maestros extends javax.swing.JFrame {
         });
 
         Label_Clientes.setText("Cliente");
+
+        jLabel64.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel64.setText("Buscar:");
 
         javax.swing.GroupLayout Panel_ClientesLayout = new javax.swing.GroupLayout(Panel_Clientes);
         Panel_Clientes.setLayout(Panel_ClientesLayout);
@@ -1147,10 +1420,10 @@ public class Maestros extends javax.swing.JFrame {
                                 .addComponent(btn_Editar_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Panel_ClientesLayout.createSequentialGroup()
                                 .addComponent(Label_Lista_Clientes)
-                                .addGap(122, 122, 122)
-                                .addComponent(txt_Buscar_Lista_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(176, 176, 176)
+                                .addComponent(jLabel64)
                                 .addGap(18, 18, 18)
-                                .addComponent(btn_Buscar_Lista_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(txt_Buscar_Lista_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         Panel_ClientesLayout.setVerticalGroup(
@@ -1161,11 +1434,10 @@ public class Maestros extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(Panel_ClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_Buscar_Lista_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(Panel_ClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(Label_Lista_Clientes)
-                        .addComponent(txt_Buscar_Lista_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(Panel_ClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Label_Lista_Clientes)
+                    .addComponent(txt_Buscar_Lista_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel64))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -1341,7 +1613,7 @@ public class Maestros extends javax.swing.JFrame {
             jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel25Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1355,8 +1627,14 @@ public class Maestros extends javax.swing.JFrame {
 
         jButton45.setText("Compra");
 
-        jButton46.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton46.setText("Buscar");
+        txt_Buscar_Lista_Proveedor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_Buscar_Lista_ProveedorKeyReleased(evt);
+            }
+        });
+
+        jLabel65.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel65.setText("Buscar:");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -1375,10 +1653,10 @@ public class Maestros extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel51)
-                                .addGap(80, 80, 80)
-                                .addComponent(jTextField38, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(109, 109, 109)
+                                .addComponent(jLabel65)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton46))
+                                .addComponent(txt_Buscar_Lista_Proveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                                 .addComponent(jButton45, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
@@ -1393,11 +1671,10 @@ public class Maestros extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton46, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel51)
-                        .addComponent(jTextField38, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel51)
+                    .addComponent(txt_Buscar_Lista_Proveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel65))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
@@ -1523,7 +1800,7 @@ public class Maestros extends javax.swing.JFrame {
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
                     .addComponent(txt_Marca_Articulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_Cancelar_Articulo)
                     .addComponent(btn_Guardar_Articulo)
@@ -1567,7 +1844,7 @@ public class Maestros extends javax.swing.JFrame {
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel14Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 381, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 385, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1580,25 +1857,39 @@ public class Maestros extends javax.swing.JFrame {
 
         jLabel19.setText("Artículos");
 
+        txt_Buscar_Lista_Articulo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_Buscar_Lista_ArticuloKeyReleased(evt);
+            }
+        });
+
+        jLabel66.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel66.setText("Buscar:");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(273, 273, 273)
-                .addComponent(jLabel18)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel19)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btn_editar_Articulo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(273, 273, 273)
+                        .addComponent(jLabel18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel66)
+                        .addGap(18, 18, 18)
+                        .addComponent(txt_Buscar_Lista_Articulo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(jLabel19)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(btn_editar_Articulo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -1609,7 +1900,10 @@ public class Maestros extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel18)
+                    .addComponent(txt_Buscar_Lista_Articulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel66))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
@@ -1754,7 +2048,7 @@ public class Maestros extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(canvas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 73, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel22Layout.setVerticalGroup(
@@ -1834,15 +2128,18 @@ public class Maestros extends javax.swing.JFrame {
             jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel26Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         Label_Lista_Clientes1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         Label_Lista_Clientes1.setText("Lista Pack");
 
-        jButton3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton3.setText("Buscar");
+        txt_Buscar_Lista_Pack.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_Buscar_Lista_PackKeyReleased(evt);
+            }
+        });
 
         btn_Editar_Pack.setText("Editar");
         btn_Editar_Pack.addActionListener(new java.awt.event.ActionListener() {
@@ -1850,6 +2147,9 @@ public class Maestros extends javax.swing.JFrame {
                 btn_Editar_PackActionPerformed(evt);
             }
         });
+
+        jLabel67.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel67.setText("Buscar:");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -1860,10 +2160,10 @@ public class Maestros extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(292, 292, 292)
                         .addComponent(Label_Lista_Clientes1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 250, Short.MAX_VALUE)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel67)
+                        .addGap(18, 18, 18)
+                        .addComponent(txt_Buscar_Lista_Pack, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1886,13 +2186,13 @@ public class Maestros extends javax.swing.JFrame {
                 .addComponent(jLabel49)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(Label_Lista_Clientes1)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txt_Buscar_Lista_Pack, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel67))
                         .addGap(3, 3, 3)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -2029,12 +2329,15 @@ public class Maestros extends javax.swing.JFrame {
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel19Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 431, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jButton20.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton20.setText("Buscar");
+        txt_Buscar_Lista_Categoria_Articulo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_Buscar_Lista_Categoria_ArticuloKeyReleased(evt);
+            }
+        });
 
         btn_Editar_Categoria_Articulo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btn_Editar_Categoria_Articulo.setText("Editar");
@@ -2043,6 +2346,9 @@ public class Maestros extends javax.swing.JFrame {
                 btn_Editar_Categoria_ArticuloActionPerformed(evt);
             }
         });
+
+        jLabel68.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel68.setText("Buscar:");
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -2061,10 +2367,9 @@ public class Maestros extends javax.swing.JFrame {
                         .addGap(271, 271, 271)
                         .addComponent(jLabel27)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel68)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton20)
-                        .addGap(8, 8, 8))
+                        .addComponent(txt_Buscar_Lista_Categoria_Articulo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jPanel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -2080,13 +2385,12 @@ public class Maestros extends javax.swing.JFrame {
                 .addComponent(jLabel25)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton20, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel27)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel27)
+                    .addComponent(txt_Buscar_Lista_Categoria_Articulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel68))
+                .addGap(19, 19, 19)
                 .addComponent(jPanel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_Editar_Categoria_Articulo)
@@ -2176,8 +2480,11 @@ public class Maestros extends javax.swing.JFrame {
         jLabel21.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel21.setText("Redes Sociales");
 
-        jButton13.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton13.setText("Buscar");
+        txt_Buscar_Lista_RRSS.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_Buscar_Lista_RRSSKeyReleased(evt);
+            }
+        });
 
         jPanel16.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -2210,7 +2517,7 @@ public class Maestros extends javax.swing.JFrame {
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel16Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 443, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -2221,6 +2528,9 @@ public class Maestros extends javax.swing.JFrame {
                 btn_Editar_RRSSActionPerformed(evt);
             }
         });
+
+        jLabel69.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel69.setText("Buscar:");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -2239,10 +2549,10 @@ public class Maestros extends javax.swing.JFrame {
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                                 .addComponent(jLabel21)
-                                .addGap(109, 109, 109)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(139, 139, 139)
+                                .addComponent(jLabel69)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txt_Buscar_Lista_RRSS, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(btn_Editar_RRSS, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
@@ -2254,12 +2564,11 @@ public class Maestros extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel21)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel21)
+                    .addComponent(txt_Buscar_Lista_RRSS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel69))
+                .addGap(11, 11, 11)
                 .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_Editar_RRSS)
@@ -2281,7 +2590,11 @@ public class Maestros extends javax.swing.JFrame {
             }
         });
 
-        jButton29.setText("Buscar");
+        txt_Buscar_Lista_Comuna.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_Buscar_Lista_ComunaKeyReleased(evt);
+            }
+        });
 
         jPanel27.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -2314,7 +2627,7 @@ public class Maestros extends javax.swing.JFrame {
             jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel27Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 438, Short.MAX_VALUE)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -2375,7 +2688,7 @@ public class Maestros extends javax.swing.JFrame {
                     .addComponent(combobox_Estado_Comuna, 0, 125, Short.MAX_VALUE)
                     .addComponent(txt_Nombre_Comuna, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
                     .addComponent(txt_Codigo_Comuna))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 162, Short.MAX_VALUE)
                 .addComponent(btn_Cancelar_Comuna, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_Actualizar_Comuna, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2409,6 +2722,9 @@ public class Maestros extends javax.swing.JFrame {
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
+        jLabel70.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel70.setText("Buscar:");
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
@@ -2421,10 +2737,10 @@ public class Maestros extends javax.swing.JFrame {
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addGap(249, 249, 249)
                         .addComponent(jLabel34)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 232, Short.MAX_VALUE)
-                        .addComponent(jTextField22, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel70)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton29))
+                        .addComponent(txt_Buscar_Lista_Comuna, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel33)
@@ -2447,8 +2763,8 @@ public class Maestros extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel34)
-                    .addComponent(jTextField22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton29))
+                    .addComponent(txt_Buscar_Lista_Comuna, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel70))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
@@ -2494,12 +2810,15 @@ public class Maestros extends javax.swing.JFrame {
             jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel20Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jButton30.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton30.setText("Buscar");
+        txt_Buscar_Lista_Banco.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_Buscar_Lista_BancoKeyReleased(evt);
+            }
+        });
 
         jPanel29.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -2553,7 +2872,7 @@ public class Maestros extends javax.swing.JFrame {
                     .addComponent(combobox_Estado_Banco, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txt_Codigo_Banco, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
                     .addComponent(txt_Nombre_Banco))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 182, Short.MAX_VALUE)
                 .addComponent(btn_Cancelar_Banco, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_Actualizar_Banco, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2595,6 +2914,9 @@ public class Maestros extends javax.swing.JFrame {
             }
         });
 
+        jLabel71.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel71.setText("Buscar:");
+
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
@@ -2611,10 +2933,10 @@ public class Maestros extends javax.swing.JFrame {
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGap(245, 245, 245)
                         .addComponent(jLabel30)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 211, Short.MAX_VALUE)
-                        .addComponent(jTextField23, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel71)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton30))
+                        .addComponent(txt_Buscar_Lista_Banco, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jPanel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -2630,12 +2952,11 @@ public class Maestros extends javax.swing.JFrame {
                 .addComponent(jLabel29)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel29, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(9, 9, 9)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton30, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel30)
-                        .addComponent(jTextField23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel30)
+                    .addComponent(txt_Buscar_Lista_Banco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel71))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
@@ -2658,8 +2979,11 @@ public class Maestros extends javax.swing.JFrame {
             }
         });
 
-        jButton39.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton39.setText("Buscar");
+        txt_Buscar_Lista_Categoria_Venta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_Buscar_Lista_Categoria_VentaKeyReleased(evt);
+            }
+        });
 
         jPanel30.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -2713,7 +3037,7 @@ public class Maestros extends javax.swing.JFrame {
                     .addComponent(combobox_Estado_Categoria_Venta, 0, 125, Short.MAX_VALUE)
                     .addComponent(txt_Nombre_Categoria_Venta, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
                     .addComponent(txt_Codigo_Categoria_Venta))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 141, Short.MAX_VALUE)
                 .addComponent(btn_Cancelar_Categoria_Venta, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_Actualizar_Categoría_Venta, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2778,9 +3102,12 @@ public class Maestros extends javax.swing.JFrame {
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel18Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE)
                 .addContainerGap())
         );
+
+        jLabel72.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel72.setText("Buscar:");
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -2791,10 +3118,10 @@ public class Maestros extends javax.swing.JFrame {
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addGap(221, 221, 221)
                         .addComponent(jLabel38)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 147, Short.MAX_VALUE)
-                        .addComponent(jTextField27, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel72)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton39))
+                        .addComponent(txt_Buscar_Lista_Categoria_Venta, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jPanel30, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -2817,13 +3144,12 @@ public class Maestros extends javax.swing.JFrame {
                 .addComponent(jLabel35)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton39, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel38)
-                        .addComponent(jTextField27, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel38)
+                    .addComponent(txt_Buscar_Lista_Categoria_Venta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel72))
+                .addGap(19, 19, 19)
                 .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_Editar_Categoria_Venta)
@@ -2922,8 +3248,11 @@ public class Maestros extends javax.swing.JFrame {
             }
         });
 
-        jButton40.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton40.setText("Buscar");
+        txt_Buscar_Lista_Usuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_Buscar_Lista_UsuarioKeyReleased(evt);
+            }
+        });
 
         jPanel21.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -2960,6 +3289,9 @@ public class Maestros extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jLabel73.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel73.setText("Buscar:");
+
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
         jPanel11Layout.setHorizontalGroup(
@@ -2969,11 +3301,10 @@ public class Maestros extends javax.swing.JFrame {
                     .addGroup(jPanel11Layout.createSequentialGroup()
                         .addGap(255, 255, 255)
                         .addComponent(jLabel41)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 179, Short.MAX_VALUE)
-                        .addComponent(jTextField30, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 200, Short.MAX_VALUE)
+                        .addComponent(jLabel73)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton40)
-                        .addGap(12, 12, 12))
+                        .addComponent(txt_Buscar_Lista_Usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel11Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2994,13 +3325,13 @@ public class Maestros extends javax.swing.JFrame {
                 .addComponent(jLabel39)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel41)
                     .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextField30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton40)))
-                .addGap(23, 23, 23)
+                        .addComponent(txt_Buscar_Lista_Usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel73)))
+                .addGap(24, 24, 24)
                 .addComponent(jPanel21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_Eliminar_Usuario)
@@ -3014,6 +3345,11 @@ public class Maestros extends javax.swing.JFrame {
 
         MENU_VENTAS.setText("Ventas");
         MENU_VENTAS.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        MENU_VENTAS.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                MENU_VENTASMouseClicked(evt);
+            }
+        });
         jMenuBar2.add(MENU_VENTAS);
 
         MENU_COMPRAS.setText("Compras");
@@ -3127,6 +3463,7 @@ public class Maestros extends javax.swing.JFrame {
                 txt_Nombre_Cliente.setText((String) table_Lista_Clientes.getValueAt(i, 1));
                 txt_Telefono_Cliente.setText((String) table_Lista_Clientes.getValueAt(i, 2));
                 txt_Email_Cliente.setText((String) table_Lista_Clientes.getValueAt(i, 3));
+                date_F_Nacimiento_Cliente.setDateFormatString((String) table_Lista_Clientes.getValueAt(i, 4));
                 combobox_Comuna_Cliente.setSelectedItem(table_Lista_Clientes.getValueAt(i, 5)) ;
                 txt_Celular_Cliente.setText((String) table_Lista_Clientes.getValueAt(i, 6));
                 combobox_Estado_Cliente.setSelectedItem(table_Lista_Clientes.getValueAt(i, 7));
@@ -3419,7 +3756,7 @@ public class Maestros extends javax.swing.JFrame {
     }
 
     private void Editar_Pack(){}
-    private void Modificar_Pack(){
+    /*private void Modificar_Pack(){
         int i = 0;
         while(i<tabla_pack.getRowCount()){
             if(IsSelected(i, 5, table_Lista_Pack)){
@@ -3444,6 +3781,8 @@ public class Maestros extends javax.swing.JFrame {
         PreparedStatement pst4;
         PreparedStatement pst5;
         
+        String datos[] = new String [2];
+        
         try {
             
             pst = conect.prepareStatement(SQL);
@@ -3457,9 +3796,17 @@ public class Maestros extends javax.swing.JFrame {
             pst = conect.prepareStatement(SQL5);
             ResultSet rs5 = pst.executeQuery();
             
-            while(rs.next() && rs2.next() && rs3.next() && rs4.next() && rs5.next()){
+            while(rs3.next() ){
                 if(txt_Codigo_Pack.getText().contentEquals(rs3.getString("PCK_ID_PACK")) ){
-                    
+                    while(rs.next() && rs2.next() && rs4.next() && rs5.next()){
+                        if(rs4.getString("PCK_ID_ARTICULO").toString().contentEquals(rs.getString("ART_ID_ARTICULO").toString())){
+                            //for(int j = 0 ; j<tabla_articulos_pack_1.getRowCount() ; j++){
+                                tabla_articulos_pack_2.setValueAt(rs2.getString("ART_NOMBRE").toString(), i, 0);
+                                tabla_articulos_pack_2.setValueAt(rs5.getString("CANTIDAD".toString()), i, 1);
+                            //}
+                            
+                        }
+                    }
                 }
             }   
             
@@ -3475,7 +3822,7 @@ public class Maestros extends javax.swing.JFrame {
         */
         ////////////////////////////////////////////////////////////////////////
         
-    }
+    //}
     
     /*private void Editar_Usuario(){  
         if( pass_Ingreso_Clave.getText().contentEquals(pass_Verificar_Clave.getText())){
@@ -4082,8 +4429,61 @@ public class Maestros extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_Codigo_PackActionPerformed
 
     private void btn_Editar_PackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Editar_PackActionPerformed
+        //Modificar_Pack();
         Desbloquear_Atualizar_Pack();
     }//GEN-LAST:event_btn_Editar_PackActionPerformed
+
+    private void txt_Buscar_Lista_ClienteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_Buscar_Lista_ClienteKeyReleased
+        Buscar_Lista_Clientes(txt_Buscar_Lista_Cliente.getText());
+    }//GEN-LAST:event_txt_Buscar_Lista_ClienteKeyReleased
+
+    private void txt_Buscar_Lista_ProveedorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_Buscar_Lista_ProveedorKeyReleased
+        Buscar_Lista_Proveedores(txt_Buscar_Lista_Proveedor.getText());
+    }//GEN-LAST:event_txt_Buscar_Lista_ProveedorKeyReleased
+
+    private void txt_Buscar_Lista_Categoria_ArticuloKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_Buscar_Lista_Categoria_ArticuloKeyReleased
+        Buscar_Lista_Categoria_Articulo(txt_Buscar_Lista_Categoria_Articulo.getText());
+    }//GEN-LAST:event_txt_Buscar_Lista_Categoria_ArticuloKeyReleased
+
+    private void txt_Buscar_Lista_ComunaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_Buscar_Lista_ComunaKeyReleased
+        Buscar_Lista_Comunas(txt_Buscar_Lista_Comuna.getText());
+    }//GEN-LAST:event_txt_Buscar_Lista_ComunaKeyReleased
+
+    private void txt_Buscar_Lista_BancoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_Buscar_Lista_BancoKeyReleased
+        Buscar_Lista_Bancos(txt_Buscar_Lista_Banco.getText());
+    }//GEN-LAST:event_txt_Buscar_Lista_BancoKeyReleased
+
+    private void txt_Buscar_Lista_RRSSKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_Buscar_Lista_RRSSKeyReleased
+        Buscar_Lista_RRSS(txt_Buscar_Lista_RRSS.getText());
+    }//GEN-LAST:event_txt_Buscar_Lista_RRSSKeyReleased
+
+    private void txt_Buscar_Lista_UsuarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_Buscar_Lista_UsuarioKeyReleased
+        Buscar_Lista_Usuarios(txt_Buscar_Lista_Usuario.getText());
+    }//GEN-LAST:event_txt_Buscar_Lista_UsuarioKeyReleased
+
+    private void txt_Buscar_Lista_Categoria_VentaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_Buscar_Lista_Categoria_VentaKeyReleased
+        Buscar_Lista_Categoria_Venta(txt_Buscar_Lista_Categoria_Venta.getText());
+    }//GEN-LAST:event_txt_Buscar_Lista_Categoria_VentaKeyReleased
+
+    private void txt_Buscar_Lista_ArticuloKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_Buscar_Lista_ArticuloKeyReleased
+        Buscar_Lista_Articulo(txt_Buscar_Lista_Articulo.getText());
+    }//GEN-LAST:event_txt_Buscar_Lista_ArticuloKeyReleased
+
+    private void txt_Buscar_Lista_PackKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_Buscar_Lista_PackKeyReleased
+        Buscar_Lista_Pack(txt_Buscar_Lista_Pack.getText());
+    }//GEN-LAST:event_txt_Buscar_Lista_PackKeyReleased
+
+    private void btn_Venta_ClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Venta_ClienteActionPerformed
+        Ventas Venta_cliente = new Ventas();
+        Venta_cliente.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btn_Venta_ClienteActionPerformed
+
+    private void MENU_VENTASMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MENU_VENTASMouseClicked
+        Ventas Venta_cliente = new Ventas();
+        Venta_cliente.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_MENU_VENTASMouseClicked
     
     public void Desactivar () {
         // TODO add your handling code here:
@@ -4093,7 +4493,6 @@ public class Maestros extends javax.swing.JFrame {
         
         //DBConeccion db = new DBConeccion();
         //DBConeccion.getConnection()
-       
         
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -4122,7 +4521,6 @@ public class Maestros extends javax.swing.JFrame {
     private javax.swing.JButton btn_Actualizar_Proveedor;
     private javax.swing.JButton btn_Actualizar_RRSS;
     private javax.swing.JButton btn_Agregar_Articulo;
-    private javax.swing.JButton btn_Buscar_Lista_Cliente;
     private javax.swing.JButton btn_Cancelar_Articulo;
     private javax.swing.JButton btn_Cancelar_Banco;
     private javax.swing.JButton btn_Cancelar_Categoria_Articulo;
@@ -4169,15 +4567,7 @@ public class Maestros extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> combobox_Estado_Red_Social;
     private com.toedter.calendar.JDateChooser date_F_Nacimiento_Cliente;
     private com.toedter.calendar.JDateChooser date_Fecha_Vencimiento_Articulo;
-    private javax.swing.JButton jButton13;
-    private javax.swing.JButton jButton20;
-    private javax.swing.JButton jButton29;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton30;
-    private javax.swing.JButton jButton39;
-    private javax.swing.JButton jButton40;
     private javax.swing.JButton jButton45;
-    private javax.swing.JButton jButton46;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -4238,7 +4628,17 @@ public class Maestros extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel61;
     private javax.swing.JLabel jLabel62;
     private javax.swing.JLabel jLabel63;
+    private javax.swing.JLabel jLabel64;
+    private javax.swing.JLabel jLabel65;
+    private javax.swing.JLabel jLabel66;
+    private javax.swing.JLabel jLabel67;
+    private javax.swing.JLabel jLabel68;
+    private javax.swing.JLabel jLabel69;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel70;
+    private javax.swing.JLabel jLabel71;
+    private javax.swing.JLabel jLabel72;
+    private javax.swing.JLabel jLabel73;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu10;
@@ -4292,14 +4692,6 @@ public class Maestros extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField22;
-    private javax.swing.JTextField jTextField23;
-    private javax.swing.JTextField jTextField27;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField30;
-    private javax.swing.JTextField jTextField38;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JPasswordField pass_Ingreso_Clave;
     private javax.swing.JPasswordField pass_Verificar_Clave;
     private javax.swing.JSpinner spinner_Pack;
@@ -4316,7 +4708,16 @@ public class Maestros extends javax.swing.JFrame {
     private javax.swing.JTable table_Lista_Proveedores;
     private javax.swing.JTable table_Lista_RRSS;
     private javax.swing.JTable table_Lista_Usuarios;
+    private javax.swing.JTextField txt_Buscar_Lista_Articulo;
+    private javax.swing.JTextField txt_Buscar_Lista_Banco;
+    private javax.swing.JTextField txt_Buscar_Lista_Categoria_Articulo;
+    private javax.swing.JTextField txt_Buscar_Lista_Categoria_Venta;
     private javax.swing.JTextField txt_Buscar_Lista_Cliente;
+    private javax.swing.JTextField txt_Buscar_Lista_Comuna;
+    private javax.swing.JTextField txt_Buscar_Lista_Pack;
+    private javax.swing.JTextField txt_Buscar_Lista_Proveedor;
+    private javax.swing.JTextField txt_Buscar_Lista_RRSS;
+    private javax.swing.JTextField txt_Buscar_Lista_Usuario;
     private javax.swing.JTextField txt_Celular_Cliente;
     private javax.swing.JTextField txt_Codigo_Articulo;
     private javax.swing.JTextField txt_Codigo_Banco;

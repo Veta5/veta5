@@ -65,6 +65,9 @@
               <Color id="Cursor Por defecto"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="MENU_VENTASMouseClicked"/>
+          </Events>
         </Menu>
         <Menu class="javax.swing.JMenu" name="MENU_COMPRAS">
           <Properties>
@@ -178,10 +181,10 @@
                                   </Group>
                                   <Group type="102" alignment="1" attributes="0">
                                       <Component id="Label_Lista_Clientes" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
-                                      <Component id="txt_Buscar_Lista_Cliente" min="-2" pref="150" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="176" max="-2" attributes="0"/>
+                                      <Component id="jLabel64" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="btn_Buscar_Lista_Cliente" min="-2" pref="100" max="-2" attributes="0"/>
+                                      <Component id="txt_Buscar_Lista_Cliente" min="-2" pref="150" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -198,12 +201,10 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="btn_Buscar_Lista_Cliente" alignment="0" min="-2" pref="24" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="Label_Lista_Clientes" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txt_Buscar_Lista_Cliente" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="Label_Lista_Clientes" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txt_Buscar_Lista_Cliente" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel64" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jPanel12" max="32767" attributes="0"/>
@@ -317,7 +318,7 @@
                           </Group>
                           <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="btn_Guardar_Cliente" alignment="0" pref="24" max="32767" attributes="0"/>
+                              <Component id="btn_Guardar_Cliente" alignment="0" pref="23" max="32767" attributes="0"/>
                               <Component id="btn_Actualizar_Cliente" alignment="0" max="32767" attributes="0"/>
                               <Component id="btn_Cancelar_Cliente" min="-2" max="-2" attributes="0"/>
                           </Group>
@@ -509,7 +510,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPane1" pref="375" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" pref="382" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -600,19 +601,17 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txt_Buscar_Lista_Cliente">
-            </Component>
-            <Component class="javax.swing.JButton" name="btn_Buscar_Lista_Cliente">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Tahoma" size="14" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Buscar"/>
-              </Properties>
+              <Events>
+                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_Buscar_Lista_ClienteKeyReleased"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btn_Venta_Cliente">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Venta"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_Venta_ClienteActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btn_Editar_Cliente">
               <Properties>
@@ -628,6 +627,14 @@
             <Component class="javax.swing.JLabel" name="Label_Clientes">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Cliente"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel64">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Buscar:"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -658,10 +665,10 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="1" attributes="0">
                                       <Component id="jLabel51" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="80" max="-2" attributes="0"/>
-                                      <Component id="jTextField38" min="-2" pref="150" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="109" max="-2" attributes="0"/>
+                                      <Component id="jLabel65" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="jButton46" min="-2" max="-2" attributes="0"/>
+                                      <Component id="txt_Buscar_Lista_Proveedor" min="-2" pref="150" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="1" attributes="0">
                                       <Component id="jButton45" min="-2" pref="100" max="-2" attributes="0"/>
@@ -683,12 +690,10 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanel24" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jButton46" alignment="0" min="-2" pref="24" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel51" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextField38" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel51" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txt_Buscar_Lista_Proveedor" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel65" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jPanel25" max="32767" attributes="0"/>
@@ -929,7 +934,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPane9" pref="405" max="32767" attributes="0"/>
+                          <Component id="jScrollPane9" pref="412" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -1020,15 +1025,18 @@
                 <Property name="text" type="java.lang.String" value="Compra"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton46">
+            <Component class="javax.swing.JTextField" name="txt_Buscar_Lista_Proveedor">
+              <Events>
+                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_Buscar_Lista_ProveedorKeyReleased"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel65">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="14" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Buscar"/>
+                <Property name="text" type="java.lang.String" value="Buscar:"/>
               </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="jTextField38">
             </Component>
           </SubComponents>
         </Container>
@@ -1044,23 +1052,30 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="273" max="-2" attributes="0"/>
-                      <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
-                  </Group>
                   <Group type="102" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jPanel13" max="32767" attributes="0"/>
-                          <Component id="jPanel14" max="32767" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="273" max="-2" attributes="0"/>
+                              <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="jLabel66" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="txt_Buscar_Lista_Articulo" min="-2" pref="150" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                              <Component id="btn_editar_Articulo" min="-2" pref="100" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jPanel13" max="32767" attributes="0"/>
+                                  <Component id="jPanel14" max="32767" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                      <Component id="btn_editar_Articulo" min="-2" pref="100" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -1075,7 +1090,11 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanel13" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel18" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txt_Buscar_Lista_Articulo" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel66" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jPanel14" max="32767" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -1181,7 +1200,7 @@
                               <Component id="jLabel14" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="txt_Marca_Articulo" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="9" max="32767" attributes="0"/>
+                          <EmptySpace pref="8" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="btn_Cancelar_Articulo" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="btn_Guardar_Articulo" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1321,7 +1340,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPane2" pref="381" max="32767" attributes="0"/>
+                          <Component id="jScrollPane2" pref="385" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -1415,6 +1434,19 @@
                 <Property name="text" type="java.lang.String" value="Art&#xed;culos"/>
               </Properties>
             </Component>
+            <Component class="javax.swing.JTextField" name="txt_Buscar_Lista_Articulo">
+              <Events>
+                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_Buscar_Lista_ArticuloKeyReleased"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel66">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Buscar:"/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel5">
@@ -1434,10 +1466,10 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="292" max="-2" attributes="0"/>
                               <Component id="Label_Lista_Clientes1" min="-2" pref="93" max="-2" attributes="0"/>
-                              <EmptySpace pref="250" max="32767" attributes="0"/>
-                              <Component id="jTextField1" min="-2" pref="120" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButton3" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="jLabel67" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="txt_Buscar_Lista_Pack" min="-2" pref="150" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
@@ -1469,13 +1501,13 @@
                       <Component id="jLabel49" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanel22" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="Label_Lista_Clientes1" min="-2" max="-2" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jButton3" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                                  <Component id="jTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txt_Buscar_Lista_Pack" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel67" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="3" pref="3" max="-2" attributes="0"/>
                           </Group>
@@ -1558,7 +1590,7 @@
                                       </Group>
                                       <Component id="jScrollPane11" alignment="0" min="-2" pref="270" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="73" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -1812,7 +1844,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPane12" pref="300" max="32767" attributes="0"/>
+                          <Component id="jScrollPane12" pref="322" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -1890,15 +1922,10 @@
                 <Property name="text" type="java.lang.String" value="Lista Pack"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton3">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Tahoma" size="14" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Buscar"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="jTextField1">
+            <Component class="javax.swing.JTextField" name="txt_Buscar_Lista_Pack">
+              <Events>
+                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_Buscar_Lista_PackKeyReleased"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btn_Editar_Pack">
               <Properties>
@@ -1907,6 +1934,14 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_Editar_PackActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel67">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Buscar:"/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>
@@ -1938,10 +1973,9 @@
                               <EmptySpace min="-2" pref="271" max="-2" attributes="0"/>
                               <Component id="jLabel27" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
-                              <Component id="jTextField4" min="-2" pref="130" max="-2" attributes="0"/>
+                              <Component id="jLabel68" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jButton20" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                              <Component id="txt_Buscar_Lista_Categoria_Articulo" min="-2" pref="150" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
@@ -1963,15 +1997,13 @@
                       <Component id="jLabel25" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanel17" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jButton20" alignment="0" min="-2" pref="25" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel27" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextField4" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel27" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txt_Buscar_Lista_Categoria_Articulo" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel68" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                       <Component id="jPanel19" max="32767" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btn_Editar_Categoria_Articulo" min="-2" max="-2" attributes="0"/>
@@ -2145,7 +2177,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPane4" pref="431" max="32767" attributes="0"/>
+                          <Component id="jScrollPane4" pref="446" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -2202,15 +2234,10 @@
                 </Container>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JTextField" name="jTextField4">
-            </Component>
-            <Component class="javax.swing.JButton" name="jButton20">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Tahoma" size="14" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Buscar"/>
-              </Properties>
+            <Component class="javax.swing.JTextField" name="txt_Buscar_Lista_Categoria_Articulo">
+              <Events>
+                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_Buscar_Lista_Categoria_ArticuloKeyReleased"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btn_Editar_Categoria_Articulo">
               <Properties>
@@ -2222,6 +2249,14 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_Editar_Categoria_ArticuloActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel68">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Buscar:"/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>
@@ -2251,10 +2286,10 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="1" attributes="0">
                                       <Component id="jLabel21" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="109" max="-2" attributes="0"/>
-                                      <Component id="jTextField3" min="-2" pref="126" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="139" max="-2" attributes="0"/>
+                                      <Component id="jLabel69" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="jButton13" min="-2" pref="100" max="-2" attributes="0"/>
+                                      <Component id="txt_Buscar_Lista_RRSS" min="-2" pref="150" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="btn_Editar_RRSS" alignment="1" min="-2" pref="100" max="-2" attributes="0"/>
                               </Group>
@@ -2272,14 +2307,12 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanel15" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jButton13" alignment="0" min="-2" pref="25" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel21" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextField3" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel21" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txt_Buscar_Lista_RRSS" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel69" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                       <Component id="jPanel16" max="32767" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btn_Editar_RRSS" min="-2" max="-2" attributes="0"/>
@@ -2420,15 +2453,10 @@
                 <Property name="text" type="java.lang.String" value="Redes Sociales"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextField3">
-            </Component>
-            <Component class="javax.swing.JButton" name="jButton13">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Tahoma" size="14" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Buscar"/>
-              </Properties>
+            <Component class="javax.swing.JTextField" name="txt_Buscar_Lista_RRSS">
+              <Events>
+                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_Buscar_Lista_RRSSKeyReleased"/>
+              </Events>
             </Component>
             <Container class="javax.swing.JPanel" name="jPanel16">
               <Properties>
@@ -2447,7 +2475,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPane3" pref="443" max="32767" attributes="0"/>
+                          <Component id="jScrollPane3" pref="452" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -2515,6 +2543,14 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_Editar_RRSSActionPerformed"/>
               </Events>
             </Component>
+            <Component class="javax.swing.JLabel" name="jLabel69">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Buscar:"/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel8">
@@ -2538,10 +2574,10 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="249" max="-2" attributes="0"/>
                               <Component id="jLabel34" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="232" max="32767" attributes="0"/>
-                              <Component id="jTextField22" min="-2" pref="100" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="jLabel70" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jButton29" min="-2" max="-2" attributes="0"/>
+                              <Component id="txt_Buscar_Lista_Comuna" min="-2" pref="150" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
@@ -2571,8 +2607,8 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel34" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextField22" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButton29" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txt_Buscar_Lista_Comuna" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel70" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jPanel27" max="32767" attributes="0"/>
@@ -2608,12 +2644,10 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_Editar_ComunasActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextField22">
-            </Component>
-            <Component class="javax.swing.JButton" name="jButton29">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Buscar"/>
-              </Properties>
+            <Component class="javax.swing.JTextField" name="txt_Buscar_Lista_Comuna">
+              <Events>
+                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_Buscar_Lista_ComunaKeyReleased"/>
+              </Events>
             </Component>
             <Container class="javax.swing.JPanel" name="jPanel27">
               <Properties>
@@ -2632,7 +2666,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPane6" pref="438" max="32767" attributes="0"/>
+                          <Component id="jScrollPane6" pref="445" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -2712,7 +2746,7 @@
                               <Component id="txt_Nombre_Comuna" pref="125" max="32767" attributes="0"/>
                               <Component id="txt_Codigo_Comuna" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="162" max="32767" attributes="0"/>
                           <Component id="btn_Cancelar_Comuna" min="-2" pref="125" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="btn_Actualizar_Comuna" min="-2" pref="125" max="-2" attributes="0"/>
@@ -2822,6 +2856,14 @@
                 </Component>
               </SubComponents>
             </Container>
+            <Component class="javax.swing.JLabel" name="jLabel70">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Buscar:"/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel9">
@@ -2850,10 +2892,10 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="245" max="-2" attributes="0"/>
                               <Component id="jLabel30" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="211" max="32767" attributes="0"/>
-                              <Component id="jTextField23" min="-2" pref="130" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="jLabel71" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jButton30" min="-2" max="-2" attributes="0"/>
+                              <Component id="txt_Buscar_Lista_Banco" min="-2" pref="150" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
@@ -2875,13 +2917,11 @@
                       <Component id="jLabel29" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanel29" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jButton30" alignment="1" min="-2" pref="24" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel30" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextField23" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel30" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txt_Buscar_Lista_Banco" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel71" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jPanel20" max="32767" attributes="0"/>
@@ -2923,7 +2963,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPane5" pref="434" max="32767" attributes="0"/>
+                          <Component id="jScrollPane5" pref="439" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -2980,15 +3020,10 @@
                 </Container>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JTextField" name="jTextField23">
-            </Component>
-            <Component class="javax.swing.JButton" name="jButton30">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Tahoma" size="14" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Buscar"/>
-              </Properties>
+            <Component class="javax.swing.JTextField" name="txt_Buscar_Lista_Banco">
+              <Events>
+                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_Buscar_Lista_BancoKeyReleased"/>
+              </Events>
             </Component>
             <Container class="javax.swing.JPanel" name="jPanel29">
               <Properties>
@@ -3013,7 +3048,7 @@
                               <Component id="txt_Codigo_Banco" pref="125" max="32767" attributes="0"/>
                               <Component id="txt_Nombre_Banco" alignment="0" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="182" max="32767" attributes="0"/>
                           <Component id="btn_Cancelar_Banco" min="-2" pref="125" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="btn_Actualizar_Banco" min="-2" pref="125" max="-2" attributes="0"/>
@@ -3131,6 +3166,14 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_Editar_BancoActionPerformed"/>
               </Events>
             </Component>
+            <Component class="javax.swing.JLabel" name="jLabel71">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Buscar:"/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel10">
@@ -3150,10 +3193,10 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="221" max="-2" attributes="0"/>
                               <Component id="jLabel38" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="147" max="32767" attributes="0"/>
-                              <Component id="jTextField27" min="-2" pref="130" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="jLabel72" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jButton39" min="-2" max="-2" attributes="0"/>
+                              <Component id="txt_Buscar_Lista_Categoria_Venta" min="-2" pref="150" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
@@ -3185,15 +3228,13 @@
                       <Component id="jLabel35" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanel30" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jButton39" alignment="0" min="-2" pref="25" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel38" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextField27" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel38" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txt_Buscar_Lista_Categoria_Venta" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel72" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                       <Component id="jPanel18" max="32767" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btn_Editar_Categoria_Venta" min="-2" max="-2" attributes="0"/>
@@ -3227,15 +3268,10 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_Editar_Categoria_VentaActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton39">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Tahoma" size="14" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Buscar"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="jTextField27">
+            <Component class="javax.swing.JTextField" name="txt_Buscar_Lista_Categoria_Venta">
+              <Events>
+                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_Buscar_Lista_Categoria_VentaKeyReleased"/>
+              </Events>
             </Component>
             <Container class="javax.swing.JPanel" name="jPanel30">
               <Properties>
@@ -3260,7 +3296,7 @@
                               <Component id="txt_Nombre_Categoria_Venta" pref="125" max="32767" attributes="0"/>
                               <Component id="txt_Codigo_Categoria_Venta" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="141" max="32767" attributes="0"/>
                           <Component id="btn_Cancelar_Categoria_Venta" min="-2" pref="125" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="btn_Actualizar_Categoría_Venta" min="-2" pref="125" max="-2" attributes="0"/>
@@ -3384,7 +3420,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPane7" pref="439" max="32767" attributes="0"/>
+                          <Component id="jScrollPane7" pref="441" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -3441,6 +3477,14 @@
                 </Container>
               </SubComponents>
             </Container>
+            <Component class="javax.swing.JLabel" name="jLabel72">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Buscar:"/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel11">
@@ -3460,11 +3504,10 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="255" max="-2" attributes="0"/>
                               <Component id="jLabel41" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="179" max="32767" attributes="0"/>
-                              <Component id="jTextField30" min="-2" pref="130" max="-2" attributes="0"/>
+                              <EmptySpace pref="200" max="32767" attributes="0"/>
+                              <Component id="jLabel73" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jButton40" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                              <Component id="txt_Buscar_Lista_Usuario" min="-2" pref="150" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
@@ -3493,15 +3536,15 @@
                       <Component id="jLabel39" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jPanel23" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel41" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jTextField30" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButton40" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txt_Buscar_Lista_Usuario" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel73" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                       <Component id="jPanel21" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btn_Eliminar_Usuario" min="-2" max="-2" attributes="0"/>
@@ -3647,15 +3690,10 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_Eliminar_UsuarioActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton40">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Tahoma" size="14" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Buscar"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="jTextField30">
+            <Component class="javax.swing.JTextField" name="txt_Buscar_Lista_Usuario">
+              <Events>
+                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_Buscar_Lista_UsuarioKeyReleased"/>
+              </Events>
             </Component>
             <Container class="javax.swing.JPanel" name="jPanel21">
               <Properties>
@@ -3719,6 +3757,14 @@
                 </Container>
               </SubComponents>
             </Container>
+            <Component class="javax.swing.JLabel" name="jLabel73">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Buscar:"/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
       </SubComponents>
