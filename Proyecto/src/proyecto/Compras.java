@@ -4,7 +4,19 @@
  * and open the template in the editor.
  */
 package proyecto;
-
+//select * from venta where VTA_FECHA_VENTA between '2021-08-01' and '2021-08-06';
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.awt.Desktop;
+import java.awt.Font;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.sql.Connection;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -16,6 +28,35 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.JTable;
 import javax.swing.table.TableColumn;
+
+
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import java.sql.*;
+import javax.swing.JTable;
+//import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableColumn;
+import javax.swing.JTextField;
+
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+//import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.awt.Desktop;
+import java.awt.Font;
+import java.io.File;
+import java.io.FileOutputStream;
+//import java.io.IOException;
+import java.io.OutputStream;
+//import java.net.URL;
+import java.sql.Connection;
+//import java.sql.DriverManager;
+import java.sql.ResultSet;
+
 
 /**
  *
@@ -29,13 +70,39 @@ public class Compras extends javax.swing.JFrame {
     DBConeccion con = new DBConeccion();
     Connection conect = con.conectar();
 
+    DefaultTableModel tabla_articulos_OCD_1=new DefaultTableModel();
+    DefaultTableModel tabla_articulos_OCD_2=new DefaultTableModel();
+        
+    DefaultTableModel tabla_solicitud_pedido=new DefaultTableModel();
+
+    
     
     
     public Compras() {
         initComponents();
+        ////////////////////////////////////////////////////////////////////////
+        //SE CREAN LAS COLUMNAS DE LA TABLA "LISTA PACK "
+        tabla_articulos_OCD_1.addColumn("Lista de Artículos");
+        this.table_Articulos_OCD_1.setModel(tabla_articulos_OCD_1);
+        ////////////////////////////////////////////////////////////////////////
+        tabla_articulos_OCD_2.addColumn("Artículo");
+        tabla_articulos_OCD_2.addColumn("Cantidad");
+        this.table_Articulos_OCD_2.setModel(tabla_articulos_OCD_2);
+        ////////////////////////////////////////////////////////////////////////
+        SpinnerNumberModel nm = new SpinnerNumberModel();
+        nm.setMinimum(0);
+        spinner_Cantidad_OCD.setModel(nm);
+        ////////////////////////////////////////////////////////////////////////
+        tabla_solicitud_pedido.addColumn("Número Pedido");
+        tabla_solicitud_pedido.addColumn("Fecha Pedido");
+        tabla_solicitud_pedido.addColumn("Cantidad de Artículos");
+        tabla_solicitud_pedido.addColumn("Selección");
+        this.table_Pedidos_Realizados.setModel(tabla_solicitud_pedido);
         
-      
         
+        Mostrar_Lista_Pedidos_Realizados();
+        Agregar_Articulos_A_Pack();
+        Consultar_Proveedor();
     }
 
     /**
@@ -45,19 +112,258 @@ public class Compras extends javax.swing.JFrame {
      */
     
     
- 
+    public DefaultTableModel Agregar_Articulos_A_Pack(){
+        //table_Articulos_Pack_1.sets
+        //lista_articulo_pack.addElement("SENTENCIA SQL");
+        String sql = "SELECT ART_NOMBRE FROM articulo ORDER BY ART_NOMBRE";
+        String [] registros = new String[1];
+        tabla_articulos_OCD_1.setRowCount(0);
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        try {
+            pst = conect.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while(rs.next()){
+                registros[0] = rs.getString("ART_NOMBRE");
+                tabla_articulos_OCD_1.addRow(registros);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e + "No se pudo mostrar tabla de articulos");
+        }
+       
+        return tabla_articulos_OCD_1;
+    }
     
+    public DefaultTableModel Mostrar_Lista_Pedidos_Realizados(){
+        
+        String [] registros = new String[3];
+        tabla_solicitud_pedido.setRowCount(0);
+        String sql = "select ORC_ID_ORDEN_COMPRA, ORC_FECHA_ORD_COM, OCD_CANTIDAD\n" +
+                     "from orden_Compra inner join orden_compra_detalle\n" +
+                     "on orden_compra.ORC_ID_ORDEN_COMPRA = orden_compra_detalle.OCD_ID_ORD_COM\n" +
+                     "order by ORC_ID_ORDEN_COMPRA;";
+        
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        int x=0;
+        int y=0;
+        int cont=0;
+        //String y = "";
+        try {
+            pst = conect.prepareStatement(sql);
+            rs = pst.executeQuery();
+     
+            while(rs.next()){
+                y = rs.getInt("ORC_ID_ORDEN_COMPRA");
+                if(rs.getInt("ORC_ID_ORDEN_COMPRA") == y){
+                    registros[0] = rs.getString("ORC_ID_ORDEN_COMPRA");
+                    registros[1] = rs.getString("ORC_FECHA_ORD_COM");  
+                    x = rs.getInt("OCD_CANTIDAD") + x;  
+                    //y= (String) x;
+                    registros[2] = Integer.toString(x);
+                    cont++;
+                    tabla_solicitud_pedido.addRow(registros);
+                }
+                else{
+                    x=0;
+                    y = rs.getInt("ORC_ID_ORDEN_COMPRA");
+                    //w=y;
+                    if(rs.getInt("ORC_ID_ORDEN_COMPRA") == y){
+                        registros[0] = rs.getString("ORC_ID_ORDEN_COMPRA");
+                        registros[1] = rs.getString("ORC_FECHA_ORD_COM");  
+                        x = rs.getInt("OCD_CANTIDAD") + x;  
+                        //y= (String) x;
+                        registros[2] = Integer.toString(x);
+                    }
+                }
+                
+                //tabla_solicitud_pedido.addRow(registros);
+                
+            }
+            
+            
+        }
+        
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e + "No se pudo mostrar tabla");
+        }
+        
+        addCheckBox_Detalle_Pedido_Realizado(3, table_Pedidos_Realizados);
+ 
+
+        return tabla_solicitud_pedido;
+    
+    }
+    
+    
+    
+    private void Imprimir_Detalle_Pedidos_Realizado(){
+        
+        int i =0;
+        while( i<tabla_solicitud_pedido.getRowCount()){
+            if(IsSelected(i, 3, table_Pedidos_Realizados)){
+                pk_oc.setText((String) table_Pedidos_Realizados.getValueAt(i, 0));
+            }
+            i++;
+        }
+        String aux;
+        aux = pk_oc.getText();
+        System.out.println(" gokuuuuuu " + aux);
+        
+        String sql = "select OCD_ID_ORD_COM, OCD_ID_ARTICULO, OCD_CANTIDAD, ART_VALOR\n" +
+                     "from articulo inner join orden_compra_detalle on articulo.ART_ID_ARTICULO = orden_compra_detalle.OCD_ID_ARTICULO\n" +
+                     "inner join orden_compra on orden_compra.ORC_ID_ORDEN_COMPRA = orden_compra_detalle.OCD_ID_ORD_COM\n" +
+                     " WHERE ORC_ID_ORDEN_COMPRA = '"+aux+"'  order by OCD_ID_ORDEN_COMPRA_DET;";
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        
+        String aux2;  
+        int cantidad = 0;
+        int valor = 0;
+        int Total = 0;
+        int TOTALTOTAL=0;
+        try {
+            pst = conect.prepareStatement(sql);
+            rs = pst.executeQuery();
+           
+            OutputStream file = new FileOutputStream(new File("C:\\Users\\paul1\\OneDrive\\Escritorio\\Dream Gift PDF\\Detalle_Pedido_Realizados.pdf"));
+            Document document = new Document();
+           
+            PdfWriter.getInstance((com.itextpdf.text.Document) document, file);
+            document.open();
+            PdfPTable tabla = new PdfPTable (5);
+            Paragraph p = new Paragraph ("Detalle Pedidos Realizados \n\n", FontFactory.getFont("Arial",16,Font.ITALIC,BaseColor.BLACK));
+       
+            p.setAlignment(Element.ALIGN_CENTER);
+            document.add(p);
+            
+            document.add(new Paragraph(""));
+            
+            
+            float [] mediaceldas = {3.0f, 3.0f, 3.0f, 3.0f, 3.0f}; 
+         
+            tabla.setWidths(mediaceldas);
+         
+            tabla.addCell(new Paragraph("Número OC", FontFactory.getFont("Calibri",10,BaseColor.BLUE)));
+            tabla.addCell(new Paragraph("Cód. Artículo", FontFactory.getFont("Calibri",10,BaseColor.BLUE)));
+            tabla.addCell(new Paragraph("Cantidad", FontFactory.getFont("Calibri",10,BaseColor.BLUE)));
+            tabla.addCell(new Paragraph("Valor", FontFactory.getFont("Calibri",10,BaseColor.BLUE)));
+            tabla.addCell(new Paragraph("Total", FontFactory.getFont("Calibri",10,BaseColor.BLUE)));
+       
+
+            while(rs.next()){
+
+                tabla.addCell(new Paragraph(rs.getString("OCD_ID_ORD_COM"), FontFactory.getFont("Calibri",9)));                  
+                tabla.addCell(new Paragraph(rs.getString("OCD_ID_ARTICULO"), FontFactory.getFont("Calibri",9)));
+
+                //tabla.addCell(new Paragraph(rs.getString("OCD_CANTIDAD"), FontFactory.getFont("Calibri",9)));
+                cantidad = rs.getInt("OCD_CANTIDAD");
+                tabla.addCell(new Paragraph(rs.getString("OCD_CANTIDAD"), FontFactory.getFont("Calibri",9)));
+
+                //tabla.addCell(new Paragraph(rs.getString("ART_VALOR"), FontFactory.getFont("Calibri",9)));
+                valor = rs.getInt("ART_VALOR");
+                tabla.addCell(new Paragraph(rs.getString("ART_VALOR"), FontFactory.getFont("Calibri",9)));
+
+                Total = cantidad * valor;
+                tabla.addCell(new Paragraph("$ "+ Total, FontFactory.getFont("Calibri",9)));
+                TOTALTOTAL=TOTALTOTAL+Total;
+                cantidad = 0;
+                valor = 0;
+                Total = 0;
+          
+            }           
+           
+            document.add(tabla); 
+
+            Paragraph t = new Paragraph ("total $ = "+TOTALTOTAL+" \n\n", FontFactory.getFont("Arial",16,Font.ITALIC,BaseColor.BLACK));
+       
+            t.setAlignment(Element.ALIGN_RIGHT);
+            document.add(t);
+            
+            document.add(new Paragraph(""));
+             
+            document.close();
+            file.close(); 
+             
+
+        } 
+        catch (Exception e) {
+        }
+        
+        try{
+          File file = new File("C:\\Users\\paul1\\OneDrive\\Escritorio\\Dream Gift PDF\\Detalle_Pedido_Realizados.pdf");
+          Desktop.getDesktop().open(file);
+       }   
+      catch (Exception e){
+        e.printStackTrace();
+         }
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+ 
+    private void Agregar_Articulo_Pack(){
+        int FilaSeleccioanda = table_Articulos_OCD_1.getSelectedRow();
+        if(FilaSeleccioanda>=0){
+            String datos[] = new String[2];
+            datos[0] = table_Articulos_OCD_1.getValueAt(FilaSeleccioanda, 0).toString();
+            datos[1] = spinner_Cantidad_OCD.getValue().toString(); 
+            tabla_articulos_OCD_2.addRow(datos);
+            tabla_articulos_OCD_1.removeRow(FilaSeleccioanda);
+        }
+    }
+    private void Quitar_Articulo_Pack(){
+        int FilaSeleccioanda = table_Articulos_OCD_2.getSelectedRow();
+        if(FilaSeleccioanda>=0){
+            String datos[] = new String[1];
+            datos[0] = table_Articulos_OCD_2.getValueAt(FilaSeleccioanda, 0).toString();
+            tabla_articulos_OCD_1.addRow(datos);
+            tabla_articulos_OCD_2.removeRow(FilaSeleccioanda);
+        }
+    }
    
     
+    public void Consultar_Proveedor(){
+        String SQL = "SELECT PRO_NOMBRE FROM proveedor ORDER BY PRO_ID_RUT_PROVEEDOR ";
+        String SQL2 = "SELECT PRO_ESTADO FROM proveedor ORDER BY PRO_ID_RUT_PROVEEDOR ";
+        combobox_Proveedor_Solicitud_Pedido.removeAllItems();
+        try {
+            PreparedStatement pst = conect.prepareStatement(SQL);
+            ResultSet rs = pst.executeQuery();
+            PreparedStatement pst2 = conect.prepareStatement(SQL2);
+            ResultSet rs2 = pst2.executeQuery();
+            combobox_Proveedor_Solicitud_Pedido.addItem("Seleccione una opción"); 
+            while(rs.next() && rs2.next()){
+                if(rs2.getString("PRO_ESTADO").contentEquals("Activo")){
+                    combobox_Proveedor_Solicitud_Pedido.addItem(rs.getString("PRO_NOMBRE"));
+                }
+            }
+        } catch (Exception e) {}
+    }
     
     
-  
+    
+    public void addCheckBox_Detalle_Pedido_Realizado(int column, JTable table){
+        TableColumn tc = table.getColumnModel().getColumn(column);
+        tc.setCellEditor(table.getDefaultEditor(Boolean.class));
+        tc.setCellRenderer(table.getDefaultRenderer(Boolean.class));
+    }
 
     ////////////////////////////////////////////////////////////////////////////
     public boolean IsSelected(int row, int column, JTable table){
         return table.getValueAt(row, column) != null;
     }
-   
+    
      
      
     
@@ -92,28 +398,29 @@ public class Compras extends javax.swing.JFrame {
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
         jLabel17 = new javax.swing.JLabel();
-        TabbedPane_VENTAS = new javax.swing.JTabbedPane();
+        TabbedPane_COMPRAS = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
-        jLabel37 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         jLabel38 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        date_Fecha_Pedido_OC = new com.toedter.calendar.JDateChooser();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        table_Articulos_OCD_1 = new javax.swing.JTable();
         jScrollPane6 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
-        jSpinner1 = new javax.swing.JSpinner();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        table_Articulos_OCD_2 = new javax.swing.JTable();
+        spinner_Cantidad_OCD = new javax.swing.JSpinner();
+        btn_Agregar_Articulos_OCD = new javax.swing.JButton();
+        btn_Quitar_Artículos_OCD = new javax.swing.JButton();
+        btn_Guardar_Solicitud_Pedido = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        combobox_Proveedor_Solicitud_Pedido = new javax.swing.JComboBox<>();
+        pk_oc = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
         btn_Guardar_Venta = new javax.swing.JButton();
         btn_Cancelar_Venta = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        table_Pedidos_Realizados = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -130,7 +437,7 @@ public class Compras extends javax.swing.JFrame {
         jLabel31 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        table_Ventas_Pendientes = new javax.swing.JTable();
+        table_Detalle_Factura = new javax.swing.JTable();
         jPanel7 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
@@ -153,7 +460,7 @@ public class Compras extends javax.swing.JFrame {
         jLabel32 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        table_Lista_Destinos = new javax.swing.JTable();
+        table_Factura_Compra_Inventariada = new javax.swing.JTable();
         jPanel10 = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
@@ -167,7 +474,7 @@ public class Compras extends javax.swing.JFrame {
         jButton12 = new javax.swing.JButton();
         jPanel11 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
+        table_Detalle_Factura_2 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -229,47 +536,64 @@ public class Compras extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(204, 153, 255));
 
-        TabbedPane_VENTAS.addMouseListener(new java.awt.event.MouseAdapter() {
+        TabbedPane_COMPRAS.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                TabbedPane_VENTASMouseClicked(evt);
+                TabbedPane_COMPRASMouseClicked(evt);
             }
         });
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel37.setText("Número Pedido:");
-
         jLabel38.setText("Fecha Pedido:");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        date_Fecha_Pedido_OC.setDateFormatString("yyyy-MM-dd");
+
+        table_Articulos_OCD_1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Title 1"
+                "Lista de Artículos"
             }
         ));
-        jScrollPane5.setViewportView(jTable1);
+        jScrollPane5.setViewportView(table_Articulos_OCD_1);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        table_Articulos_OCD_2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Title 1", "Title 2"
+                "Artículo", "Cantidad"
             }
         ));
-        jScrollPane6.setViewportView(jTable2);
+        jScrollPane6.setViewportView(table_Articulos_OCD_2);
 
-        jButton6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton6.setText(">");
+        btn_Agregar_Articulos_OCD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btn_Agregar_Articulos_OCD.setText(">");
+        btn_Agregar_Articulos_OCD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_Agregar_Articulos_OCDActionPerformed(evt);
+            }
+        });
 
-        jButton7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton7.setText("<");
+        btn_Quitar_Artículos_OCD.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btn_Quitar_Artículos_OCD.setText("<");
+        btn_Quitar_Artículos_OCD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_Quitar_Artículos_OCDActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Guardar");
+        btn_Guardar_Solicitud_Pedido.setText("Guardar");
+        btn_Guardar_Solicitud_Pedido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_Guardar_Solicitud_PedidoActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Cancelar");
+
+        jLabel4.setText("Proveedor:");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -278,34 +602,35 @@ public class Compras extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jButton7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
-                                    .addGroup(jPanel6Layout.createSequentialGroup()
-                                        .addGap(10, 10, 10)
-                                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(58, 58, 58))
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addComponent(jLabel37)
-                                .addGap(18, 18, 18)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addComponent(jLabel38)
-                                .addGap(18, 18, 18)
-                                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                            .addGap(0, 485, Short.MAX_VALUE)
+                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(btn_Guardar_Solicitud_Pedido, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel6Layout.createSequentialGroup()
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel6Layout.createSequentialGroup()
+                                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(83, 83, 83)
+                                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(btn_Quitar_Artículos_OCD, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btn_Agregar_Articulos_OCD, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
+                                        .addGroup(jPanel6Layout.createSequentialGroup()
+                                            .addGap(10, 10, 10)
+                                            .addComponent(spinner_Cantidad_OCD, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(jPanel6Layout.createSequentialGroup()
+                                    .addComponent(jLabel4)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(combobox_Proveedor_Solicitud_Pedido, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGap(58, 58, 58)
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel6Layout.createSequentialGroup()
+                                    .addComponent(jLabel38)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(date_Fecha_Pedido_OC, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addComponent(pk_oc, javax.swing.GroupLayout.PREFERRED_SIZE, 7, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -314,28 +639,30 @@ public class Compras extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel37)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel38))
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel38)
+                        .addComponent(jLabel4)
+                        .addComponent(combobox_Proveedor_Solicitud_Pedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(date_Fecha_Pedido_OC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(jPanel6Layout.createSequentialGroup()
                             .addGap(10, 10, 10)
-                            .addComponent(jButton6)
+                            .addComponent(btn_Agregar_Articulos_OCD)
                             .addGap(12, 12, 12)
-                            .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(spinner_Cantidad_OCD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jButton7))
+                            .addComponent(btn_Quitar_Artículos_OCD))
                         .addGroup(jPanel6Layout.createSequentialGroup()
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(pk_oc, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
+                    .addComponent(btn_Guardar_Solicitud_Pedido)
                     .addComponent(jButton4))
                 .addGap(15, 15, 15))
         );
@@ -358,7 +685,7 @@ public class Compras extends javax.swing.JFrame {
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        table_Pedidos_Realizados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -366,10 +693,18 @@ public class Compras extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Número Pedido", "Fecha Pedido", "Cantidad de Artículos", "Selección"
             }
-        ));
-        jScrollPane2.setViewportView(jTable3);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(table_Pedidos_Realizados);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -389,7 +724,7 @@ public class Compras extends javax.swing.JFrame {
         );
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel3.setText("Detalle Pepidos Realizados");
+        jLabel3.setText("Detalle Pedidos Realizados");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -433,13 +768,13 @@ public class Compras extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        TabbedPane_VENTAS.addTab("Solicitudes pedido", jPanel3);
+        TabbedPane_COMPRAS.addTab("Solicitudes pedido", jPanel3);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel5.setText("Número Factura:");
 
-        jLabel6.setText("Rut:");
+        jLabel6.setText("Proveedor:");
 
         txt_Numero_Pedido_Confirmacion.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -512,7 +847,7 @@ public class Compras extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btn_Confirmación)
                             .addComponent(jButton5))))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -529,7 +864,7 @@ public class Compras extends javax.swing.JFrame {
 
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
 
-        table_Ventas_Pendientes.setModel(new javax.swing.table.DefaultTableModel(
+        table_Detalle_Factura.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null}
@@ -538,7 +873,7 @@ public class Compras extends javax.swing.JFrame {
                 "Número Pedido", "Fecha Pedido", "Nombre Cliente", "Rut Cliente", "Número Teléfono"
             }
         ));
-        jScrollPane3.setViewportView(table_Ventas_Pendientes);
+        jScrollPane3.setViewportView(table_Detalle_Factura);
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -695,10 +1030,10 @@ public class Compras extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_Seleccionar_Confirmación)
                     .addComponent(jButton10))
-                .addContainerGap(1081, Short.MAX_VALUE))
+                .addContainerGap(1082, Short.MAX_VALUE))
         );
 
-        TabbedPane_VENTAS.addTab("Registro Compra", jPanel1);
+        TabbedPane_COMPRAS.addTab("Registro Compra", jPanel1);
 
         jButton1.setText("Descargar");
 
@@ -708,7 +1043,7 @@ public class Compras extends javax.swing.JFrame {
 
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
 
-        table_Lista_Destinos.setModel(new javax.swing.table.DefaultTableModel(
+        table_Factura_Compra_Inventariada.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -719,7 +1054,7 @@ public class Compras extends javax.swing.JFrame {
                 "Registro Venta", "Pack", "Destinatario", "Fecha Entrega", "Title 5"
             }
         ));
-        jScrollPane1.setViewportView(table_Lista_Destinos);
+        jScrollPane1.setViewportView(table_Factura_Compra_Inventariada);
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -815,7 +1150,7 @@ public class Compras extends javax.swing.JFrame {
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btn_Confirmación1)
                             .addComponent(jButton11))))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         jLabel21.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -825,7 +1160,7 @@ public class Compras extends javax.swing.JFrame {
 
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+        table_Detalle_Factura_2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -836,7 +1171,7 @@ public class Compras extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4", "Title 5"
             }
         ));
-        jScrollPane4.setViewportView(jTable4);
+        jScrollPane4.setViewportView(table_Detalle_Factura_2);
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -865,22 +1200,18 @@ public class Compras extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel32)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(59, 59, 59)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap())
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())))
+                        .addComponent(jLabel32)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(59, 59, 59)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(259, 259, 259)
                 .addComponent(jLabel21)
@@ -916,10 +1247,10 @@ public class Compras extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addContainerGap(722, Short.MAX_VALUE))
+                .addContainerGap(723, Short.MAX_VALUE))
         );
 
-        TabbedPane_VENTAS.addTab("Revisión de facturas", jPanel4);
+        TabbedPane_COMPRAS.addTab("Revisión de facturas", jPanel4);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI Black", 1, 36)); // NOI18N
         jLabel2.setText("Dream Gift");
@@ -949,7 +1280,7 @@ public class Compras extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(TabbedPane_VENTAS)
+                .addComponent(TabbedPane_COMPRAS)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(233, 233, 233)
@@ -962,7 +1293,7 @@ public class Compras extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(TabbedPane_VENTAS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(TabbedPane_COMPRAS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -980,14 +1311,13 @@ public class Compras extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_MENU_MAESTROSMouseClicked
 
-    private void TabbedPane_VENTASMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TabbedPane_VENTASMouseClicked
-
-    }//GEN-LAST:event_TabbedPane_VENTASMouseClicked
+    private void TabbedPane_COMPRASMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TabbedPane_COMPRASMouseClicked
+        //Agregar_Articulos_A_Pack();
+    }//GEN-LAST:event_TabbedPane_COMPRASMouseClicked
 
     private void btn_Guardar_VentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Guardar_VentaActionPerformed
-
-                
-        
+        Imprimir_Detalle_Pedidos_Realizado();
+               
     }//GEN-LAST:event_btn_Guardar_VentaActionPerformed
 
     private void txt_Numero_Pedido_ConfirmacionKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_Numero_Pedido_ConfirmacionKeyReleased
@@ -1017,6 +1347,110 @@ public class Compras extends javax.swing.JFrame {
     private void btn_Confirmación1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Confirmación1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_Confirmación1ActionPerformed
+
+    private void btn_Agregar_Articulos_OCDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Agregar_Articulos_OCDActionPerformed
+        Agregar_Articulo_Pack();
+    }//GEN-LAST:event_btn_Agregar_Articulos_OCDActionPerformed
+
+    private void btn_Quitar_Artículos_OCDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Quitar_Artículos_OCDActionPerformed
+        Quitar_Articulo_Pack();
+    }//GEN-LAST:event_btn_Quitar_Artículos_OCDActionPerformed
+
+    private void btn_Guardar_Solicitud_PedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Guardar_Solicitud_PedidoActionPerformed
+        
+        String SQL_proveedor = "SELECT PRO_NOMBRE FROM proveedor ORDER BY PRO_ID_RUT_PROVEEDOR";
+        String SQL2_proveedor = "SELECT PRO_ID_RUT_PROVEEDOR FROM proveedor ORDER BY PRO_ID_RUT_PROVEEDOR";
+        String aux;
+        try {
+            PreparedStatement pst_nom_pro = conect.prepareStatement(SQL_proveedor);
+            ResultSet rs_nom_pro = pst_nom_pro.executeQuery();
+            PreparedStatement pst_id_pro = conect.prepareStatement(SQL2_proveedor);
+            ResultSet rs_id_pro = pst_id_pro.executeQuery();
+            
+            PreparedStatement guardar = conect.prepareStatement("INSERT INTO orden_compra (ORC_FECHA_ORD_COM, ORC_ID_PROVEEDOR_ORD_COM) VALUES (?,?)");
+            guardar.setString(1, ((JTextField) date_Fecha_Pedido_OC.getDateEditor().getUiComponent()).getText());           
+            while(rs_nom_pro.next() && rs_id_pro.next()){
+                aux = (String) combobox_Proveedor_Solicitud_Pedido.getSelectedItem();
+                if(rs_nom_pro.getString("PRO_NOMBRE").contentEquals(aux)){
+                    guardar.setString(2, rs_id_pro.getString("PRO_ID_RUT_PROVEEDOR"));
+                }   
+            }
+        
+            guardar.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Registro guardado con exito");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e + "Registro no se guardó");
+        }
+        
+        
+        String sql = "select ORC_ID_ORDEN_COMPRA from orden_compra";
+        pk_oc.setText("");
+        
+            try {
+                PreparedStatement pst_pkoc = conect.prepareStatement(sql);
+                ResultSet rs_pkoc = pst_pkoc.executeQuery();
+                
+                pk_oc.setText(rs_pkoc.getString("ORC_ID_ORDEN_COMPRA"));
+                
+            } catch (Exception e) {
+            }
+            
+        String SQL = "SELECT ART_ID_ARTICULO FROM articulo ORDER BY ART_ID_ARTICULO";
+        String SQL2 = "SELECT ART_NOMBRE FROM articulo ORDER BY ART_ID_ARTICULO";
+        String SQL3 = "SELECT ORC_ID_ORDEN_COMPRA FROM orden_compra ORDER BY ORC_ID_ORDEN_COMPRA";
+        int i=0;
+        int x=0;
+        while(i<tabla_articulos_OCD_2.getRowCount()){
+            try {   
+                PreparedStatement guardar2 = conect.prepareStatement("INSERT INTO orden_compra_detalle (OCD_CANTIDAD, OCD_ID_ARTICULO, OCD_ID_ORD_COM) VALUES (?,?,?)");
+                PreparedStatement pst = conect.prepareStatement(SQL);
+                ResultSet rs = pst.executeQuery();
+                PreparedStatement pst2 = conect.prepareStatement(SQL2);
+                ResultSet rs2 = pst2.executeQuery();
+                
+                
+         
+                PreparedStatement pst_id_OC = conect.prepareStatement(SQL3);
+                ResultSet rs_id_OC = pst_id_OC.executeQuery();
+                
+
+                //x = (int) tabla_articulos_OCD_2.getValueAt(i, 1) + x;
+
+                
+                guardar2.setString(1, tabla_articulos_OCD_2.getValueAt(i, 1).toString());
+
+                while(rs.next() && rs2.next()){
+                    if((tabla_articulos_OCD_2.getValueAt(i, 0).toString()).contentEquals(rs2.getString("ART_NOMBRE"))){
+                        guardar2.setString(2, rs.getString("ART_ID_ARTICULO"));
+
+                    }
+                }
+                
+                while(rs_id_OC.next()){
+
+                    guardar2.setString(3, rs_id_OC.getString("ORC_ID_ORDEN_COMPRA"));
+                    
+                }
+                
+                guardar2.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Registro guardado con exito");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e + "Registro no se guardó");
+            }
+            i++;
+        }
+            
+            
+            
+            
+            
+            
+        
+        
+        
+        
+        
+    }//GEN-LAST:event_btn_Guardar_Solicitud_PedidoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1065,29 +1499,30 @@ public class Compras extends javax.swing.JFrame {
     private javax.swing.JMenu MENU_INFORMES;
     private javax.swing.JMenu MENU_MAESTROS;
     private javax.swing.JMenu MENU_VENTAS;
-    private javax.swing.JTabbedPane TabbedPane_VENTAS;
+    private javax.swing.JTabbedPane TabbedPane_COMPRAS;
+    private javax.swing.JButton btn_Agregar_Articulos_OCD;
     private javax.swing.JButton btn_Cancelar_Venta;
     private javax.swing.JButton btn_Confirmación;
     private javax.swing.JButton btn_Confirmación1;
+    private javax.swing.JButton btn_Guardar_Solicitud_Pedido;
     private javax.swing.JButton btn_Guardar_Venta;
+    private javax.swing.JButton btn_Quitar_Artículos_OCD;
     private javax.swing.JButton btn_Seleccionar_Confirmación;
+    private javax.swing.JComboBox<String> combobox_Proveedor_Solicitud_Pedido;
     private com.toedter.calendar.JDateChooser date_Fecha_Pago_Confirmacion;
     private com.toedter.calendar.JDateChooser date_Fecha_Pago_Confirmacion1;
+    private com.toedter.calendar.JDateChooser date_Fecha_Pedido_OC;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem2;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1106,8 +1541,8 @@ public class Compras extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
-    private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -1144,12 +1579,6 @@ public class Compras extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
-    private javax.swing.JTable jTable4;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
@@ -1163,8 +1592,14 @@ public class Compras extends javax.swing.JFrame {
     private java.awt.MenuBar menuBar1;
     private java.awt.MenuBar menuBar2;
     private java.awt.MenuBar menuBar3;
-    private javax.swing.JTable table_Lista_Destinos;
-    private javax.swing.JTable table_Ventas_Pendientes;
+    private javax.swing.JTextField pk_oc;
+    private javax.swing.JSpinner spinner_Cantidad_OCD;
+    private javax.swing.JTable table_Articulos_OCD_1;
+    private javax.swing.JTable table_Articulos_OCD_2;
+    private javax.swing.JTable table_Detalle_Factura;
+    private javax.swing.JTable table_Detalle_Factura_2;
+    private javax.swing.JTable table_Factura_Compra_Inventariada;
+    private javax.swing.JTable table_Pedidos_Realizados;
     private javax.swing.JTextField txt_Numero_Pedido_Confirmacion;
     private javax.swing.JTextField txt_Numero_Pedido_Confirmacion1;
     private javax.swing.JTextField txt_Rut_Cliente_Confirmacion;

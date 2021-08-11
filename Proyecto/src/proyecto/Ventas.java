@@ -5,44 +5,44 @@
  */
 package proyecto;
 
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.pdf.PdfWriter;
-import com.mysql.cj.result.DefaultValueFactory;
+//import com.itextpdf.text.BaseColor;
+//import com.itextpdf.text.pdf.PdfWriter;
+//import com.mysql.cj.result.DefaultValueFactory;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.DefaultListModel;
+//import javax.swing.DefaultListModel;
 import java.sql.*;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import com.toedter.calendar.JDateChooser;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.text.SimpleDateFormat;
+//import java.util.Date;
+//import java.util.logging.Level;
+//import java.util.logging.Logger;
+//import com.toedter.calendar.JDateChooser;
+//import java.io.File;
+//import java.io.FileOutputStream;
+//import java.io.OutputStream;
+//import java.text.SimpleDateFormat;
 import javax.swing.JTable;
-import javax.swing.table.TableCellEditor;
+//import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
-import javax.swing.table.TableCellRenderer;
-import java.text.SimpleDateFormat;
-import java.time.Clock;
-import java.util.Calendar;
-import javax.swing.JComboBox;
+//import javax.swing.table.TableCellRenderer;
+//import java.text.SimpleDateFormat;
+//import java.time.Clock;
+//import java.util.Calendar;
+//import javax.swing.JComboBox;
 import javax.swing.JTextField;
-import javax.swing.SpinnerNumberModel;
+//import javax.swing.SpinnerNumberModel;
 //import javax.swing.text.Document;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.FontFactory;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
-import java.awt.Font;
-import java.awt.Desktop;
+//import com.itextpdf.text.Document;
+//import com.itextpdf.text.DocumentException;
+//import com.itextpdf.text.Element;
+//import com.itextpdf.text.FontFactory;
+//import com.itextpdf.text.Paragraph;
+//import com.itextpdf.text.pdf.PdfPTable;
+//import com.itextpdf.text.pdf.PdfWriter;
+//import java.awt.Font;
+//import java.awt.Desktop;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
+//import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Paragraph;
@@ -52,15 +52,15 @@ import java.awt.Desktop;
 import java.awt.Font;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
+//import java.io.IOException;
 import java.io.OutputStream;
-import java.net.URL;
+//import java.net.URL;
 import java.sql.Connection;
-import java.sql.DriverManager;
+//import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ResourceBundle;
+//import java.sql.SQLException;
+//import java.sql.Statement;
+//import java.util.ResourceBundle;
 
 
 /**
@@ -110,6 +110,25 @@ public class Ventas extends javax.swing.JFrame {
         tabla_actualizacion_despacho.addColumn("Estado Entrega");
         tabla_actualizacion_despacho.addColumn("Acción");
         this.table_Actualizacion_Despacho.setModel(tabla_actualizacion_despacho);
+        
+        
+        Consultar_RRSSS();
+        Consultar_Comuna();
+        Consultar_Pack();
+        Consultar_Banco();
+        Consultar_Estado_Venta();
+        Mostrar_Lista_Ventas_Pendientes();
+        Mostrar_Lista_Destinos();
+        Mostrar_Actualizacion_Despacho();
+        bloquear_estadoentrega();
+        bloquear_guardarestadoentrega();
+        txt_Nombre_Cliente.setEnabled(false);
+        txt_Email_Cliente.setEnabled(false);
+        txt_Telefono_Cliente.setEnabled(false);
+        
+        txt_Numero_Pedido_Confirmacion.setEnabled(false);
+        txt_Nombre_Cliente_Confirmacion.setEnabled(false);
+        txt_Rut_Cliente_Confirmacion.setEnabled(false);
         
     }
 
@@ -172,8 +191,7 @@ public class Ventas extends javax.swing.JFrame {
                 aux2 = rs.getString("VTA_HORA_ENTREGA_FINAL");
                 tabla.addCell(new Paragraph(aux + " a " + aux2, FontFactory.getFont("Calibri",9)));      
             }
-            
-            
+
              document.add(tabla);              
              document.close();
              file.close(); 
@@ -313,15 +331,19 @@ public class Ventas extends javax.swing.JFrame {
     public void Consultar_Pack(){
         String SQL = "SELECT PCK_NOMBRE FROM pack ORDER BY PCK_ID_PACK";
         String SQL2 = "SELECT PCK_ESTADO FROM pack ORDER BY PCK_ID_PACK";
+        String SQL3 = "SELECT PCK_STOCK FROM pack ORDER BY PCK_ID_PACK";
         combobox_Pack.removeAllItems();
         try {
             PreparedStatement pst = conect.prepareStatement(SQL);
             ResultSet rs = pst.executeQuery();
             PreparedStatement pst2 = conect.prepareStatement(SQL2);
             ResultSet rs2 = pst2.executeQuery();
+            PreparedStatement pst3 = conect.prepareStatement(SQL3);
+            ResultSet rs3 = pst3.executeQuery();
+            
             combobox_Pack.addItem("Seleccione una opción"); 
-            while(rs.next() && rs2.next()){
-                if(rs2.getString("PCK_ESTADO").contentEquals("Activo")){
+            while(rs.next() && rs2.next() && rs3.next()){
+                if(rs2.getString("PCK_ESTADO").contentEquals("Activo") && rs3.getInt("PCK_STOCK")>0){
                     combobox_Pack.addItem(rs.getString("PCK_NOMBRE"));
                 }
             }
@@ -411,9 +433,15 @@ public class Ventas extends javax.swing.JFrame {
 
         String [] registros = new String[7];
         tabla_ventas_pendientes.setRowCount(0);
-        String sql = "select VTA_ID_VENTA, EST_VEN_EST_ID_ESTADO, VTA_FECHA_VENTA, CLI_NOMBRE, fk_CLI_ID_RUT_CLIENTE, CLI_TELEFONO, VTA_TOTAL, PCK_NOMBRE\n" +
-                     "from venta inner join cliente on venta.fk_CLI_ID_RUT_CLIENTE = cliente.CLI_ID_RUT_CLIENTE \n" +
-                     "inner join pack on venta.PCK_ID_PACK = pack.PCK_ID_PACK     WHERE  VTA_ID_VENTA LIKE '%"+buscar+"%' OR CLI_NOMBRE LIKE '%"+buscar+"%'    order by VTA_ID_VENTA;";
+        String sql = "select EST_VEN_NOMBRE, VTA_ID_VENTA, EST_VEN_EST_ID_ESTADO, VTA_FECHA_VENTA, CLI_NOMBRE, fk_CLI_ID_RUT_CLIENTE, CLI_TELEFONO, VTA_TOTAL, PCK_NOMBRE\n" +
+                    "from venta \n" +
+                    "inner join cliente on venta.fk_CLI_ID_RUT_CLIENTE = cliente.CLI_ID_RUT_CLIENTE\n" +
+                    "inner join pack on venta.PCK_ID_PACK = pack.PCK_ID_PACK  \n" +
+                    "inner join estados_venta on venta.EST_VEN_EST_ID_ESTADO = estados_venta.EST_ID_EST_VEN   \n" +
+                    "WHERE  EST_VEN_NOMBRE = 'Pago Pendiente' AND VTA_ID_VENTA LIKE '%"+buscar+"%' \n" +
+                    "order by VTA_ID_VENTA;";
+        
+        
         
         PreparedStatement pst = null;
         ResultSet rs = null;
@@ -747,21 +775,17 @@ public class Ventas extends javax.swing.JFrame {
             
             PreparedStatement editar = conect.prepareStatement("UPDATE venta SET VTA_ID_VENTA =?, EST_VEN_EST_ID_ESTADO =? WHERE VTA_ID_VENTA =?");
   
-            System.out.println("goku 1");
             editar.setString(1, txt_ttt.getText());
-            System.out.println("goku 2" + txt_ttt.getText());
             while(rs_id_ven.next() && rs_nom_ven.next()){
                 aux = (String)combobox_Estado_Entrega.getSelectedItem();
                 if(rs_nom_ven.getString("EST_VEN_NOMBRE").contentEquals(aux)){
                     aux2 = rs_id_ven.getString("EST_ID_EST_VEN");
-                    System.out.println("goku 3" + aux);
                     editar.setString(2, aux2);
-                    System.out.println("goku 4" + aux2);
                 }   
             }
-            System.out.println("goku 5");
+ 
             editar.setString(3, txt_ttt.getText());
-            System.out.println("goku 6");
+
             
             editar.executeUpdate(); 
             
@@ -830,10 +854,8 @@ public class Ventas extends javax.swing.JFrame {
         TabbedPane_VENTAS = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
-        jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        txt_Numero_Pedido = new javax.swing.JTextField();
         txt_Nombre_Cliente = new javax.swing.JTextField();
         txt_Email_Cliente = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
@@ -888,7 +910,7 @@ public class Ventas extends javax.swing.JFrame {
         btn_Confirmación = new javax.swing.JButton();
         date_Fecha_Pago_Confirmacion = new com.toedter.calendar.JDateChooser();
         jLabel11 = new javax.swing.JLabel();
-        jTextField8 = new javax.swing.JTextField();
+        txt_Buscar_Ventas_Pendientes_Pago = new javax.swing.JTextField();
         btn_Seleccionar_Confirmación = new javax.swing.JButton();
         jLabel31 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -985,8 +1007,6 @@ public class Ventas extends javax.swing.JFrame {
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel12.setText("Número Pedido:");
-
         jLabel13.setText("Nombre Cliente:");
 
         jLabel14.setText("Email:");
@@ -1015,31 +1035,29 @@ public class Ventas extends javax.swing.JFrame {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel12)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txt_Numero_Pedido, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
-                    .addComponent(txt_Nombre_Cliente)
-                    .addComponent(txt_Email_Cliente))
-                .addGap(109, 109, 109)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel30, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel15)
-                    .addComponent(jLabel34, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel30))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txt_Telefono_Cliente)
-                            .addComponent(txt_Rut_Cliente)
-                            .addComponent(combobox_redes_sociales, 0, 135, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addComponent(btn_Completar_Datos))
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(txt_Nombre_Cliente, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
+                        .addComponent(txt_Email_Cliente))
                     .addComponent(date_Fecha_Venta, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(99, 99, 99)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel15)
+                    .addComponent(jLabel34, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txt_Telefono_Cliente)
+                    .addComponent(txt_Rut_Cliente)
+                    .addComponent(combobox_redes_sociales, 0, 135, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btn_Completar_Datos)
                 .addGap(54, 54, 54))
         );
         jPanel6Layout.setVerticalGroup(
@@ -1047,28 +1065,27 @@ public class Ventas extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
-                    .addComponent(txt_Numero_Pedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15)
                     .addComponent(txt_Rut_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_Completar_Datos))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_Completar_Datos)
                     .addComponent(jLabel13)
-                    .addComponent(txt_Nombre_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel16)
-                    .addComponent(txt_Telefono_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_Nombre_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel16)
+                    .addComponent(txt_Telefono_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel14)
-                    .addComponent(txt_Email_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel34)
-                    .addComponent(combobox_redes_sociales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_Email_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(date_Fecha_Venta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel30, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel34)
+                        .addComponent(combobox_redes_sociales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel30, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(date_Fecha_Venta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
@@ -1160,8 +1177,11 @@ public class Ventas extends javax.swing.JFrame {
                                         .addComponent(txt_Costo_Total, javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(combobox_Hora_Final, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(combobox_Hora_Inicio, javax.swing.GroupLayout.Alignment.LEADING, 0, 100, Short.MAX_VALUE))))
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(combobox_Comuna, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(jPanel7Layout.createSequentialGroup()
+                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(combobox_Comuna, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addGap(113, 113, 113))
         );
         jPanel7Layout.setVerticalGroup(
@@ -1271,12 +1291,6 @@ public class Ventas extends javax.swing.JFrame {
 
         jLabel7.setText("Banco Cliente:");
 
-        txt_Numero_Pedido_Confirmacion.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txt_Numero_Pedido_ConfirmacionKeyReleased(evt);
-            }
-        });
-
         jLabel8.setText("Nombre Cliente:");
 
         jLabel9.setText("Fehca Pago:");
@@ -1370,6 +1384,12 @@ public class Ventas extends javax.swing.JFrame {
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel11.setText("Ventas pendiente de pago");
 
+        txt_Buscar_Ventas_Pendientes_Pago.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_Buscar_Ventas_Pendientes_PagoKeyReleased(evt);
+            }
+        });
+
         btn_Seleccionar_Confirmación.setText("Seleccionar");
         btn_Seleccionar_Confirmación.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1432,7 +1452,7 @@ public class Ventas extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel4)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txt_Buscar_Ventas_Pendientes_Pago, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -1461,7 +1481,7 @@ public class Ventas extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_Buscar_Ventas_Pendientes_Pago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1488,7 +1508,7 @@ public class Ventas extends javax.swing.JFrame {
             }
         });
 
-        jLabel32.setText("Despacho");
+        jLabel32.setText("Despacho (Busqueda por fecha)");
 
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -1536,16 +1556,16 @@ public class Ventas extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel32)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel35)
                         .addGap(18, 18, 18)
-                        .addComponent(txt_Buscador_Lista_Destinos, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txt_Buscador_Lista_Destinos, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -1562,7 +1582,7 @@ public class Ventas extends javax.swing.JFrame {
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton1)
-                .addContainerGap(437, Short.MAX_VALUE))
+                .addContainerGap(442, Short.MAX_VALUE))
         );
 
         TabbedPane_VENTAS.addTab("Lista Destinos", jPanel4);
@@ -1590,7 +1610,7 @@ public class Ventas extends javax.swing.JFrame {
             }
         });
 
-        jLabel33.setText("Despacho");
+        jLabel33.setText("Despacho (Busqueda por fecha)");
 
         jPanel10.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -1762,7 +1782,7 @@ public class Ventas extends javax.swing.JFrame {
     }//GEN-LAST:event_combobox_Estado_EntregaActionPerformed
 
     private void btn_Cancelar_VentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Cancelar_VentaActionPerformed
-        txt_Numero_Pedido.setText("");
+        //txt_Numero_Pedido.setText("");
         txt_Rut_Cliente.setText("");
         txt_Nombre_Cliente.setText("");
         txt_Telefono_Cliente.setText("");
@@ -1799,16 +1819,23 @@ public class Ventas extends javax.swing.JFrame {
         btn_Guardar_Cambio.setEnabled(true);}
     
     private void TabbedPane_VENTASMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TabbedPane_VENTASMouseClicked
-        Consultar_RRSSS();
-        Consultar_Comuna();
-        Consultar_Pack();
-        Consultar_Banco();
-        Consultar_Estado_Venta();
-        Mostrar_Lista_Ventas_Pendientes();
-        Mostrar_Lista_Destinos();
-        Mostrar_Actualizacion_Despacho();
-        bloquear_estadoentrega();
-        bloquear_guardarestadoentrega();
+        //Consultar_RRSSS();
+        //Consultar_Comuna();
+        //Consultar_Pack();
+        //Consultar_Banco();
+        //Consultar_Estado_Venta();
+        //Mostrar_Lista_Ventas_Pendientes();
+        //Mostrar_Lista_Destinos();
+        //Mostrar_Actualizacion_Despacho();
+        //bloquear_estadoentrega();
+        //bloquear_guardarestadoentrega();
+        //txt_Nombre_Cliente.setEnabled(false);
+        //txt_Email_Cliente.setEnabled(false);
+        //txt_Telefono_Cliente.setEnabled(false);
+        //txt_Numero_Pedido_Confirmacion.setEnabled(false);
+        //txt_Nombre_Cliente_Confirmacion.setEnabled(false);
+        //txt_Rut_Cliente_Confirmacion.setEnabled(false);
+        
     }//GEN-LAST:event_TabbedPane_VENTASMouseClicked
 
     private void btn_Guardar_VentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Guardar_VentaActionPerformed
@@ -1822,6 +1849,7 @@ public class Ventas extends javax.swing.JFrame {
         String SQL2_comuna = "SELECT COM_ID_COMUNA FROM comunas ORDER BY COM_ID_COMUNA";
         String SQL_pack = "SELECT PCK_NOMBRE FROM pack ORDER BY PCK_ID_PACK";
         String SQL2_pack = "SELECT PCK_ID_PACK FROM pack ORDER BY PCK_ID_PACK";
+        String SQL3_pack = "SELECT PCK_STOCK FROM pack ORDER BY PCK_ID_PACK";
         String SQL_ven = "SELECT EST_VEN_NOMBRE FROM estados_venta ORDER BY EST_ID_EST_VEN";
         String SQL2_ven = "SELECT EST_ID_EST_VEN FROM estados_venta ORDER BY EST_ID_EST_VEN";
         
@@ -1852,6 +1880,8 @@ public class Ventas extends javax.swing.JFrame {
             ResultSet rs_nom_pack = pst_nom_pack.executeQuery();
             PreparedStatement pst_id_pack = conect.prepareStatement(SQL2_pack);
             ResultSet rs_id_pack = pst_id_pack.executeQuery();
+            PreparedStatement pst_stock_pack = conect.prepareStatement(SQL3_pack);
+            ResultSet rs_stock_pack = pst_stock_pack.executeQuery();
             
             PreparedStatement pst_nom_ven = conect.prepareStatement(SQL_ven);
             ResultSet rs_nom_ven = pst_nom_ven.executeQuery();
@@ -1860,24 +1890,24 @@ public class Ventas extends javax.swing.JFrame {
             
             
             
-            PreparedStatement guardar = conect.prepareStatement("INSERT INTO venta (VTA_ID_VENTA, VTA_FECHA_VENTA, VTA_NOMBRE_DESTINATARIO, VTA_FECHA_ENTREGA, VTA_DIRECCION_DESTINATARIO, VTA_TELEFONO_DESTINATARIO, VTA_SALUDO, VTA_TOTAL, VTA_HORA_ENTREGA_INICIAL, VTA_HORA_ENTREGA_FINAL, RRSS_RRS_ID_RRSS, COM_ID_COMUNA, PCK_ID_PACK, fk_CLI_ID_RUT_CLIENTE, EST_VEN_EST_ID_ESTADO) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-            guardar.setString(1, txt_Numero_Pedido.getText());
-            guardar.setString(2, ((JTextField)date_Fecha_Venta.getDateEditor().getUiComponent()).getText());
-            guardar.setString(3, txt_Nombre_Destinatario.getText());
-            guardar.setString(4, ((JTextField)date_Fecha_Entrega.getDateEditor().getUiComponent()).getText());
-            guardar.setString(5, txt_Direccion_Destinatario.getText());
-            guardar.setString(6, txt_Telefono_Destinatario.getText());
-            guardar.setString(7, txt_Saludo.getText());
-            guardar.setString(8, txt_Costo_Total.getText());
-            guardar.setString(9, (String) combobox_Hora_Inicio.getSelectedItem());
-            guardar.setString(10, (String) combobox_Hora_Final.getSelectedItem());
+            PreparedStatement guardar = conect.prepareStatement("INSERT INTO venta (VTA_FECHA_VENTA, VTA_NOMBRE_DESTINATARIO, VTA_FECHA_ENTREGA, VTA_DIRECCION_DESTINATARIO, VTA_TELEFONO_DESTINATARIO, VTA_SALUDO, VTA_TOTAL, VTA_HORA_ENTREGA_INICIAL, VTA_HORA_ENTREGA_FINAL, RRSS_RRS_ID_RRSS, COM_ID_COMUNA, PCK_ID_PACK, fk_CLI_ID_RUT_CLIENTE, EST_VEN_EST_ID_ESTADO) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            //guardar.setString(1, txt_Numero_Pedido.getText());
+            guardar.setString(1, ((JTextField)date_Fecha_Venta.getDateEditor().getUiComponent()).getText());
+            guardar.setString(2, txt_Nombre_Destinatario.getText());
+            guardar.setString(3, ((JTextField)date_Fecha_Entrega.getDateEditor().getUiComponent()).getText());
+            guardar.setString(4, txt_Direccion_Destinatario.getText());
+            guardar.setString(5, txt_Telefono_Destinatario.getText());
+            guardar.setString(6, txt_Saludo.getText());
+            guardar.setString(7, txt_Costo_Total.getText());
+            guardar.setString(8, (String) combobox_Hora_Inicio.getSelectedItem());
+            guardar.setString(9, (String) combobox_Hora_Final.getSelectedItem());
 
             
             while(rs_nom_rrss.next() && rs_id_rrss.next()){
                 aux = (String)combobox_redes_sociales.getSelectedItem();
                 if(rs_nom_rrss.getString("RRS_NOMBRE").contentEquals(aux)){
                     //aux2 = rs_id_rrss.getString("RRS_ID_RRSS");
-                    guardar.setString(11, rs_id_rrss.getString("RRS_ID_RRSS"));
+                    guardar.setString(10, rs_id_rrss.getString("RRS_ID_RRSS"));
                 }   
             }
 
@@ -1886,16 +1916,27 @@ public class Ventas extends javax.swing.JFrame {
                 aux2 = (String)combobox_Comuna.getSelectedItem();
                 if(rs_nom_com.getString("COM_NOMBRE").contentEquals(aux2)){
                     //aux2 = rs_id_rrss.getString("RRS_ID_RRSS");
-                    guardar.setString(12, rs_id_com.getString("COM_ID_COMUNA"));
+                    guardar.setString(11, rs_id_com.getString("COM_ID_COMUNA"));
                 }   
             }
 
             
-            while(rs_nom_pack.next() && rs_id_pack.next()){
+            
+            PreparedStatement editar = conect.prepareStatement("UPDATE pack SET PCK_ID_PACK=?, PCK_STOCK=? WHERE PCK_ID_PACK=?");
+            
+            
+            while(rs_nom_pack.next() && rs_id_pack.next() && rs_stock_pack.next()){
                 aux3 = (String)combobox_Pack.getSelectedItem();
                 if(rs_nom_pack.getString("PCK_NOMBRE").contentEquals(aux3)){
                     //aux2 = rs_id_rrss.getString("RRS_ID_RRSS");
-                    guardar.setString(13, rs_id_pack.getString("PCK_ID_PACK"));
+                    guardar.setString(12, rs_id_pack.getString("PCK_ID_PACK"));
+                    
+                    int x = 0;
+                    String y = "";
+                    x = rs_stock_pack.getInt("PCK_STOCK")-1;
+                    editar.setString(1, rs_id_pack.getString("PCK_ID_PACK"));
+                    editar.setInt(2, x);
+                    editar.setString(3, rs_id_pack.getString("PCK_ID_PACK"));
                 }   
             }
             
@@ -1904,7 +1945,7 @@ public class Ventas extends javax.swing.JFrame {
                 aux4 = txt_Nombre_Cliente.getText();
                 if(rs_nom_cli.getString("CLI_NOMBRE").contentEquals(aux4)){
                     //aux2 = rs_id_rrss.getString("RRS_ID_RRSS");
-                    guardar.setString(14, rs_id_cli.getString("CLI_ID_RUT_CLIENTE"));
+                    guardar.setString(13, rs_id_cli.getString("CLI_ID_RUT_CLIENTE"));
                 }   
             }
             
@@ -1912,7 +1953,7 @@ public class Ventas extends javax.swing.JFrame {
                 //aux4 = txt_Nombre_Cliente.getText();
                 if(rs_nom_ven.getString("EST_VEN_NOMBRE").contentEquals("Pago Pendiente")){
                     //aux2 = rs_id_rrss.getString("RRS_ID_RRSS");
-                    guardar.setString(15, rs_id_ven.getString("EST_ID_EST_VEN"));
+                    guardar.setString(14, rs_id_ven.getString("EST_ID_EST_VEN"));
                 }   
             }
            
@@ -1920,13 +1961,19 @@ public class Ventas extends javax.swing.JFrame {
             //guardar.setString(12, (String) combobox_Comuna.getSelectedItem());
             //guardar.setString(13, (String) combobox_Pack.getSelectedItem());
             //guardar.setString(14, txt_Rut_Cliente.getText());
+            
             guardar.executeUpdate();
+            editar.executeUpdate();
+            
+            
+            
+            
             JOptionPane.showMessageDialog(null,"Registro guardado con exito");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e + "Registro no se guardó");
         }
         
-        txt_Numero_Pedido.setText("");
+        //txt_Numero_Pedido.setText("");
         txt_Rut_Cliente.setText("");
         txt_Nombre_Cliente.setText("");
         txt_Telefono_Cliente.setText("");
@@ -1939,7 +1986,12 @@ public class Ventas extends javax.swing.JFrame {
         txt_Telefono_Destinatario.setText("");
         txt_Saludo.setText("");
         txt_Costo_Total.setText("");
-                
+            
+        
+        
+        
+        
+        
         
     }//GEN-LAST:event_btn_Guardar_VentaActionPerformed
 
@@ -1985,10 +2037,6 @@ public class Ventas extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_Telefono_DestinatarioActionPerformed
 
-    private void txt_Numero_Pedido_ConfirmacionKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_Numero_Pedido_ConfirmacionKeyReleased
-        Buscar_Lista_Ventas_Pendientes(txt_Numero_Pedido_Confirmacion.getText());
-    }//GEN-LAST:event_txt_Numero_Pedido_ConfirmacionKeyReleased
-
     private void btn_ConfirmaciónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ConfirmaciónActionPerformed
         Confirmar_Venta();
     }//GEN-LAST:event_btn_ConfirmaciónActionPerformed
@@ -1999,6 +2047,9 @@ public class Ventas extends javax.swing.JFrame {
 
     private void btn_Seleccionar_ConfirmaciónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Seleccionar_ConfirmaciónActionPerformed
         Modificar_Confirmar_Venta();
+        txt_Numero_Pedido_Confirmacion.setEnabled(false);
+        txt_Nombre_Cliente_Confirmacion.setEnabled(false);
+        txt_Rut_Cliente_Confirmacion.setEnabled(false);
     }//GEN-LAST:event_btn_Seleccionar_ConfirmaciónActionPerformed
 
     private void txt_Buscador_Lista_DestinosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_Buscador_Lista_DestinosKeyReleased
@@ -2027,6 +2078,11 @@ public class Ventas extends javax.swing.JFrame {
     private void btn_Descargar_Actualizacion_DespachoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Descargar_Actualizacion_DespachoActionPerformed
         Imprimir_Actualizacion_Despacho(txt_Buscar_Actualizacion_Despacho.getText());
     }//GEN-LAST:event_btn_Descargar_Actualizacion_DespachoActionPerformed
+
+    private void txt_Buscar_Ventas_Pendientes_PagoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_Buscar_Ventas_Pendientes_PagoKeyReleased
+        Buscar_Lista_Ventas_Pendientes(txt_Buscar_Ventas_Pendientes_Pago.getText());
+        
+    }//GEN-LAST:event_txt_Buscar_Ventas_Pendientes_PagoKeyReleased
 
     /**
      * @param args the command line arguments
@@ -2097,7 +2153,6 @@ public class Ventas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -2158,7 +2213,6 @@ public class Ventas extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTextField jTextField8;
     private java.awt.Menu menu1;
     private java.awt.Menu menu2;
     private java.awt.Menu menu3;
@@ -2173,6 +2227,7 @@ public class Ventas extends javax.swing.JFrame {
     private javax.swing.JTable table_Ventas_Pendientes;
     private javax.swing.JTextField txt_Buscador_Lista_Destinos;
     private javax.swing.JTextField txt_Buscar_Actualizacion_Despacho;
+    private javax.swing.JTextField txt_Buscar_Ventas_Pendientes_Pago;
     private javax.swing.JTextField txt_Codigo_Transaccion_Confirmacion;
     private javax.swing.JTextField txt_Costo_Total;
     private javax.swing.JTextField txt_Direccion_Destinatario;
@@ -2180,7 +2235,6 @@ public class Ventas extends javax.swing.JFrame {
     private javax.swing.JTextField txt_Nombre_Cliente;
     private javax.swing.JTextField txt_Nombre_Cliente_Confirmacion;
     private javax.swing.JTextField txt_Nombre_Destinatario;
-    private javax.swing.JTextField txt_Numero_Pedido;
     private javax.swing.JTextField txt_Numero_Pedido_Confirmacion;
     private javax.swing.JTextField txt_Rut_Cliente;
     private javax.swing.JTextField txt_Rut_Cliente_Confirmacion;

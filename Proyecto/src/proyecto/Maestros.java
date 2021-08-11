@@ -120,6 +120,8 @@ public class Maestros extends javax.swing.JFrame {
         tabla_articulos.addColumn("Descripción");
         tabla_articulos.addColumn("Categoría");
         tabla_articulos.addColumn("Marca");
+        tabla_articulos.addColumn("Stock");
+        tabla_articulos.addColumn("Valor");
         tabla_articulos.addColumn("F. Vencimiento");
         tabla_articulos.addColumn("Estado");
         tabla_articulos.addColumn("Acción");
@@ -147,6 +149,8 @@ public class Maestros extends javax.swing.JFrame {
         nm.setMinimum(0);
         spinner_Pack.setModel(nm);
         ////////////////////////////////////////////////////////////////////////
+        
+        Mostrar_Lista_Clientes();
         
         
         bloquear_Actualizar_Cliente();
@@ -365,12 +369,12 @@ public class Maestros extends javax.swing.JFrame {
     }
     
     public DefaultTableModel Mostrar_Lista_Articulo(){
-        String [] registros = new String[7];
+        String [] registros = new String[9];
         tabla_articulos.setRowCount(0);
         //String SQL1 = "SELECT CAT_NOMBRE FROM categoria_articulo";
         //String SQL2 = "SELECT CAT_ID_CATEGORIA FROM categoria_articulo";
         //String sql = "SELECT * FROM articulo";
-        String sql = "select ART_ID_ARTICULO, ART_NOMBRE, ART_DESCRPCION, CAT_NOMBRE, ART_FECHA_VENCIMIENTO, ART_ESTADO, ART_MARCA\n" +
+        String sql = "select ART_ID_ARTICULO, ART_NOMBRE, ART_DESCRPCION, CAT_NOMBRE, ART_FECHA_VENCIMIENTO, ART_ESTADO, ART_MARCA, ART_STOCK, ART_VALOR\n" +
         "\n" + "from articulo inner join categoria_articulo\n" +
         "\n" + "on articulo.CAT_ART_CAT_ID_CATEGORIA = categoria_articulo.CAT_ID_CATEGORIA ORDER BY ART_ID_ARTICULO;";
         PreparedStatement pst = null;
@@ -399,8 +403,10 @@ public class Maestros extends javax.swing.JFrame {
                 }*/
                 registros[3] = rs.getString("CAT_NOMBRE");
                 registros[4] = rs.getString("ART_MARCA");
-                registros[5] = rs.getString("ART_FECHA_VENCIMIENTO");
-                registros[6] = rs.getString("ART_ESTADO");
+                registros[5] = rs.getString("ART_STOCK");
+                registros[6] = rs.getString("ART_VALOR");
+                registros[7] = rs.getString("ART_FECHA_VENCIMIENTO");
+                registros[8] = rs.getString("ART_ESTADO");
                 tabla_articulos.addRow(registros); 
             }
         }
@@ -409,7 +415,7 @@ public class Maestros extends javax.swing.JFrame {
         
         }
         
-        addCheckBox_Articulo(7, table_Lista_Articulos);
+        addCheckBox_Articulo(9, table_Lista_Articulos);
         return tabla_articulos;
     }
     
@@ -663,9 +669,9 @@ public class Maestros extends javax.swing.JFrame {
     }
     
     public DefaultTableModel Buscar_Lista_Articulo(String buscar){
-        String [] registros = new String[7];
+        String [] registros = new String[9];
         tabla_articulos.setRowCount(0);
-        String sql = "select ART_ID_ARTICULO, ART_NOMBRE, ART_DESCRPCION, CAT_NOMBRE, ART_FECHA_VENCIMIENTO, ART_ESTADO, ART_MARCA\n" +
+        String sql = "select ART_ID_ARTICULO, ART_NOMBRE, ART_DESCRPCION, CAT_NOMBRE, ART_FECHA_VENCIMIENTO, ART_ESTADO, ART_MARCA, ART_STOCK, ART_VALOR\n" +
         "\n" + "from articulo inner join categoria_articulo\n" +
         "\n" + "on articulo.CAT_ART_CAT_ID_CATEGORIA = categoria_articulo.CAT_ID_CATEGORIA   WHERE  ART_ID_ARTICULO LIKE '%"+buscar+"%' OR ART_NOMBRE LIKE '%"+buscar+"%'    ORDER BY ART_ID_ARTICULO;";
         PreparedStatement pst = null;
@@ -680,8 +686,10 @@ public class Maestros extends javax.swing.JFrame {
                 registros[2] = rs.getString("ART_DESCRPCION");
                 registros[3] = rs.getString("CAT_NOMBRE");
                 registros[4] = rs.getString("ART_MARCA");
-                registros[5] = rs.getString("ART_FECHA_VENCIMIENTO");
-                registros[6] = rs.getString("ART_ESTADO");
+                registros[5] = rs.getString("ART_STOCK");
+                registros[6] = rs.getString("ART_VALOR");
+                registros[7] = rs.getString("ART_FECHA_VENCIMIENTO");
+                registros[8] = rs.getString("ART_ESTADO");
                 tabla_articulos.addRow(registros); 
             }
         }
@@ -690,7 +698,7 @@ public class Maestros extends javax.swing.JFrame {
         
         }
         
-        addCheckBox_Articulo(7, table_Lista_Articulos);
+        addCheckBox_Articulo(9, table_Lista_Articulos);
         return tabla_articulos;
     }
     
@@ -991,6 +999,10 @@ public class Maestros extends javax.swing.JFrame {
         jLabel55 = new javax.swing.JLabel();
         combobox_Estado_Articulo = new javax.swing.JComboBox<>();
         btn_Actualizar_Articulo = new javax.swing.JButton();
+        jLabel74 = new javax.swing.JLabel();
+        txt_Stock = new javax.swing.JTextField();
+        jLabel75 = new javax.swing.JLabel();
+        txt_Valor_Articulo = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
         jPanel14 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -1730,47 +1742,55 @@ public class Maestros extends javax.swing.JFrame {
             }
         });
 
+        jLabel74.setText("Stock:");
+
+        jLabel75.setText("Valor:");
+
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
         jPanel13.setLayout(jPanel13Layout);
         jPanel13Layout.setHorizontalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel14)
                     .addGroup(jPanel13Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel14)
-                            .addGroup(jPanel13Layout.createSequentialGroup()
-                                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jLabel50, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txt_Descripcion_Articulo, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txt_Nombre_Articulo, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txt_Marca_Articulo, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txt_Codigo_Articulo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(119, 119, 119)
-                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel16)
-                            .addComponent(jLabel55, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(date_Fecha_Vencimiento_Articulo, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
-                                .addComponent(combobox_Estado_Articulo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(combobox_Categoria_Articulo_ART, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel13Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btn_Cancelar_Articulo, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel50, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
-                        .addComponent(btn_Actualizar_Articulo, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txt_Descripcion_Articulo, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_Nombre_Articulo, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_Marca_Articulo, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_Codigo_Articulo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
+                        .addComponent(jLabel74, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btn_Guardar_Articulo, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addComponent(txt_Stock, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(119, 119, 119)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel16)
+                    .addComponent(jLabel55, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel75, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(date_Fecha_Vencimiento_Articulo, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(combobox_Categoria_Articulo_ART, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(txt_Valor_Articulo, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(combobox_Estado_Articulo, javax.swing.GroupLayout.Alignment.LEADING, 0, 125, Short.MAX_VALUE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_Cancelar_Articulo, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btn_Actualizar_Articulo, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btn_Guardar_Articulo, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8))
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1799,12 +1819,18 @@ public class Maestros extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
-                    .addComponent(txt_Marca_Articulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                    .addComponent(txt_Marca_Articulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel75)
+                    .addComponent(txt_Valor_Articulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel74)
+                    .addComponent(txt_Stock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_Cancelar_Articulo)
-                    .addComponent(btn_Guardar_Articulo)
-                    .addComponent(btn_Actualizar_Articulo))
+                    .addComponent(btn_Actualizar_Articulo)
+                    .addComponent(btn_Guardar_Articulo))
                 .addGap(15, 15, 15))
         );
 
@@ -1818,11 +1844,11 @@ public class Maestros extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Código", "Nombre", "Descripción", "Categoría", "Marca", "F. Vencimiento", "Estado", "Acción"
+                "Código", "Nombre", "Descripción", "Categoría", "Marca", "Stock", "Valor", "F. Vencimiento", "Estado", "Acción"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -1844,7 +1870,7 @@ public class Maestros extends javax.swing.JFrame {
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel14Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 385, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1898,8 +1924,8 @@ public class Maestros extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel19)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
                     .addComponent(txt_Buscar_Lista_Articulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -3702,7 +3728,7 @@ public class Maestros extends javax.swing.JFrame {
         String aux2;
         
         try {
-            PreparedStatement editar = conect.prepareStatement("UPDATE articulo SET  ART_ID_ARTICULO=?,  ART_NOMBRE=?,  ART_DESCRPCION=?,  ART_FECHA_VENCIMIENTO=?,  ART_MARCA=?,  ART_ESTADO=?, CAT_ART_CAT_ID_CATEGORIA=?  WHERE  ART_ID_ARTICULO=?");
+            PreparedStatement editar = conect.prepareStatement("UPDATE articulo SET  ART_ID_ARTICULO=?,  ART_NOMBRE=?,  ART_DESCRPCION=?,  ART_FECHA_VENCIMIENTO=?,  ART_MARCA=?,  ART_ESTADO=?, CAT_ART_CAT_ID_CATEGORIA=?, ART_STOCK=?, ART_VALOR=?  WHERE  ART_ID_ARTICULO=?");
             editar.setString(1, txt_Codigo_Articulo.getText());
             editar.setString(2, txt_Nombre_Articulo.getText());
             editar.setString(3, txt_Descripcion_Articulo.getText());
@@ -3724,7 +3750,9 @@ public class Maestros extends javax.swing.JFrame {
                 }   
             }
             
-            editar.setString(8, txt_Codigo_Articulo.getText());
+            editar.setString(8, txt_Stock.getText());
+            editar.setString(9, txt_Valor_Articulo.getText());
+            editar.setString(10, txt_Codigo_Articulo.getText());
             
             editar.executeUpdate();                
             JOptionPane.showMessageDialog(null,"Registro actualizado con exito");
@@ -3735,21 +3763,26 @@ public class Maestros extends javax.swing.JFrame {
         
         //PARA LIMPIAR LOS CAMPOS DESPUES DE GUARDAR
         txt_Codigo_Articulo.setText("");
+        txt_Stock.setText("");
         txt_Nombre_Articulo.setText("");
         txt_Descripcion_Articulo.setText("");
         txt_Marca_Articulo.setText("");
+        txt_Stock.setText("");
+        txt_Valor_Articulo.setText("");
         Mostrar_Lista_Articulo(); 
     }
     private void Modificar_Articulo(){
         int i =0;
         while( i<tabla_articulos.getRowCount()){
-            if(IsSelected(i, 7, table_Lista_Articulos)){
+            if(IsSelected(i, 9, table_Lista_Articulos)){
                 txt_Codigo_Articulo.setText((String) table_Lista_Articulos.getValueAt(i, 0));
                 txt_Nombre_Articulo.setText((String) table_Lista_Articulos.getValueAt(i, 1));
                 txt_Descripcion_Articulo.setText((String) table_Lista_Articulos.getValueAt(i, 2));
                 combobox_Categoria_Articulo_ART.setSelectedItem(table_Lista_Articulos.getValueAt(i, 3)) ;
                 txt_Marca_Articulo.setText((String) table_Lista_Articulos.getValueAt(i, 4));
-                combobox_Estado_Articulo.setSelectedItem(table_Lista_Articulos.getValueAt(i, 6));
+                txt_Stock.setText((String) table_Lista_Articulos.getValueAt(i, 5));
+                txt_Valor_Articulo.setText((String) table_Lista_Articulos.getValueAt(i, 6));
+               combobox_Estado_Articulo.setSelectedItem(table_Lista_Articulos.getValueAt(i, 8));
                 }
             i++;
         }
@@ -4279,7 +4312,7 @@ public class Maestros extends javax.swing.JFrame {
         String aux;
         String aux2;
         try {
-            PreparedStatement guardar = conect.prepareStatement("INSERT INTO articulo (ART_ID_ARTICULO,ART_NOMBRE,ART_DESCRPCION,ART_FECHA_VENCIMIENTO,ART_MARCA,ART_ESTADO,CAT_ART_CAT_ID_CATEGORIA) VALUES (?,?,?,?,?,?,?)");
+            PreparedStatement guardar = conect.prepareStatement("INSERT INTO articulo (ART_ID_ARTICULO,ART_NOMBRE,ART_DESCRPCION,ART_FECHA_VENCIMIENTO,ART_MARCA,ART_ESTADO,CAT_ART_CAT_ID_CATEGORIA,ART_STOCK, ART_VALOR) VALUES (?,?,?,?,?,?,?,?,?)");
             guardar.setString(1, txt_Codigo_Articulo.getText());
             guardar.setString(2, txt_Nombre_Articulo.getText());
             guardar.setString(3, txt_Descripcion_Articulo.getText());
@@ -4300,6 +4333,10 @@ public class Maestros extends javax.swing.JFrame {
                     guardar.setString(7,aux2);
                 }   
             }
+            
+            guardar.setString(8, txt_Stock.getText());
+            guardar.setString(9,txt_Valor_Articulo.getText());
+            
             guardar.executeUpdate();
             JOptionPane.showMessageDialog(null,"Registro guardado con exito");
         } 
@@ -4313,6 +4350,8 @@ public class Maestros extends javax.swing.JFrame {
         txt_Nombre_Articulo.setText("");
         txt_Descripcion_Articulo.setText("");
         txt_Marca_Articulo.setText("");
+        txt_Stock.setText("");
+        txt_Valor_Articulo.setText("");
     }//GEN-LAST:event_btn_Guardar_ArticuloActionPerformed
 
     private void btn_Cancelar_ArticuloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Cancelar_ArticuloActionPerformed
@@ -4320,6 +4359,8 @@ public class Maestros extends javax.swing.JFrame {
         txt_Nombre_Articulo.setText("");
         txt_Descripcion_Articulo.setText("");
         txt_Marca_Articulo.setText("");
+        txt_Stock.setText("");
+        txt_Valor_Articulo.setText("");
     }//GEN-LAST:event_btn_Cancelar_ArticuloActionPerformed
 
     private void btn_Actualizar_ArticuloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Actualizar_ArticuloActionPerformed
@@ -4639,6 +4680,8 @@ public class Maestros extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel71;
     private javax.swing.JLabel jLabel72;
     private javax.swing.JLabel jLabel73;
+    private javax.swing.JLabel jLabel74;
+    private javax.swing.JLabel jLabel75;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu10;
@@ -4744,9 +4787,11 @@ public class Maestros extends javax.swing.JFrame {
     private javax.swing.JTextField txt_Nombre_Usuario;
     private javax.swing.JTextField txt_Rut_Cliente;
     private javax.swing.JTextField txt_Rut_Proveedor;
+    private javax.swing.JTextField txt_Stock;
     private javax.swing.JTextField txt_Stock_Pack;
     private javax.swing.JTextField txt_Telefono_Cliente;
     private javax.swing.JTextField txt_Telefono_Proveedor;
+    private javax.swing.JTextField txt_Valor_Articulo;
     private javax.swing.JLabel txtlabel;
     // End of variables declaration//GEN-END:variables
 }
